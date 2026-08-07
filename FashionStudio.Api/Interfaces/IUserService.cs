@@ -1,6 +1,6 @@
 ﻿using FashionStudio.Api.Models;
 
-namespace FashionStudio.Api.Services
+namespace FashionStudio.Api.Interfaces 
 {
     public interface IUserService
     {

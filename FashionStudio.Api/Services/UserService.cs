@@ -1,6 +1,7 @@
 ﻿using FashionStudio.Api.Data;
 using FashionStudio.Api.Models;
 using BCrypt.Net;
+using FashionStudio.Api.Interfaces;
 
 namespace FashionStudio.Api.Services
 {
@@ -12,9 +13,21 @@ namespace FashionStudio.Api.Services
             _context = context;
         }
 
-        Task<bool> IUserService.CheckPasswordAsync(User user, string password)
+        public async Task<User> IUserService.VerifyPasswordAsync(string userName, string password)
         {
-            throw new NotImplementedException();
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            if (user == null)
+            {
+                Invalid username or password.
+                    throw new UnauthorizedAccessException("Invalid username or password.");
+            }
+            // Verify the password using BCrypt
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
+            if (!isPasswordValid)
+            {
+                throw new UnauthorizedAccessException("Invalid username or password.");
+            }
+            return user);
         }
 
         public async Task<User> CreateUserAsync(User user, string password)
@@ -47,8 +60,7 @@ namespace FashionStudio.Api.Services
 
         private string HashPassword(string password)
         {
-            // Implement a secure password hashing mechanism here
-            // For example, you can use BCrypt or PBKDF2
+            // Using BCrypt to hash the password securely
             try
             {
                 if (ValidatePass(password))
@@ -57,7 +69,6 @@ namespace FashionStudio.Api.Services
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that may occur during hashing
                 throw new InvalidOperationException("An error occurred while hashing the password.", ex);
             }
 
@@ -65,8 +76,7 @@ namespace FashionStudio.Api.Services
 
         private bool ValidatePass(string password)
         {
-            // Implement a secure password hashing mechanism here
-            // For example, you can use BCrypt or PBKDF2
+            // Implement a secure password hashing mechanism
             password = password.Trim();
             if (string.IsNullOrEmpty(password))
             {
