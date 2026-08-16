@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using FashionStudio.Api.Services;
+using FashionStudio.Api.Interfaces;
+using FashionStudio.Api.Models;
+using System.Threading.Tasks;
+using System;
+using FashionStudio.Api.Constants;
 
 namespace FashionStudio.Api.Controllers
 {
@@ -8,8 +12,8 @@ namespace FashionStudio.Api.Controllers
     [Route("api/[controller]")]
     public abstract class BaseController : ControllerBase
     {
-        protected readonly IActivityLogService _activityLogService;
-        public BaseController(IActivityLogService activityLogService )
+        protected readonly IActivityLogService? _activityLogService;
+        public BaseController(IActivityLogService? activityLogService = null )
         {
             _activityLogService = activityLogService;
         }
@@ -30,7 +34,7 @@ namespace FashionStudio.Api.Controllers
 
         protected int? GetCurrentWorkSpaceId()
         {
-            var claim = User.FindFirst(CustomClaimTypes.WorkSpaceId);
+            var claim = User.FindFirst(CustomClaimTypes.WorkspaceId);
             return int.TryParse(claim?.Value, out var workspaceId )
                 ? workspaceId
                 : null;
@@ -41,33 +45,25 @@ namespace FashionStudio.Api.Controllers
             return User.FindFirst(CustomClaimTypes.WorkspaceName)?.Value;
         }
 
-        protected async Task LogActivityAsync(string entityType, int entityId, string action)
+        protected async Task<ActivityLog?> LogActivityAsync(string entityType, int entityId, string action)
         {
-            //    ActivityLogId = activityLogId;
-            //    User = user;
-            //    WorkSpace = workSpace;
-            //    EntityType = entityType;
-            //    EntityId = entityId;
-            //    Action = action;
-            //    Timestamp = timestamp;
+            if (_activityLogService == null) return null;
 
-            int ? userId = GetCurrentUserId();
-            int ? workSpaceId = GetCurrentWorkSpaceId();
+            int? currentUserId = GetCurrentUserId();
+            int? currentWorkspaceId = GetCurrentWorkSpaceId();
 
-            if (userId == null && workSpaceId == null) return;
-
-            ActivityLog log = new
+            var log = new ActivityLog
             {
-                UserId = userId,
-                WorkSpaceId = workSpaceId,
                 EntityType = entityType,
-                EntityTypeId = entityId,
+                EntityId = entityId,
+                // Fallback to entityId (the user logging in) if currentUserId is null
+                UserId = currentUserId ?? entityId,
+                WorkSpaceId = currentWorkspaceId, // Assign nullable directly (do not use .Value)
                 Action = action,
-                TimeStamp = DateTime.UtcNow,
+                Timestamp = DateTime.UtcNow
             };
 
-            await _activityLogService.logActivity(log);
-
+            return await _activityLogService.LogActivity(log);
         }
     }
 }

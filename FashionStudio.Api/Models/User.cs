@@ -13,7 +13,7 @@ namespace FashionStudio.Api.Models
         public int Id { get; set; }
 
         public WorkSpace? WorkSpace { get; set; } = null;
-        public int? WorkSpaceId { get; set; }
+        public int? WorkSpaceId { get; set; } = null;
 
         public ICollection<WorkSpace> OwnedWorkSpaces { get; set; } = new List<WorkSpace>();
 
@@ -25,7 +25,7 @@ namespace FashionStudio.Api.Models
         public Role Role { get; set; } 
         public DateTime JoinedAt { get; set; }
         public bool IsActive { get; set; } = true; // true: active, false: inactive
-        public string Password { get; internal set; }
+        public string Password { get; internal set; } = string.Empty;
 
     }
 }

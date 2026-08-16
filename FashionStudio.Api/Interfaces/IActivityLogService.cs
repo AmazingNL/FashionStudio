@@ -4,7 +4,7 @@ namespace FashionStudio.Api.Interfaces
 {
     public interface IActivityLogService 
     {
-        public Task<ActivityLog> logActivity(ActivityLog activity);
+        public Task<ActivityLog> LogActivity(ActivityLog activity);
     }
 
 }

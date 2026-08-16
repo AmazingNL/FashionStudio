@@ -2,7 +2,9 @@ using FashionStudio.Api.Models;
 using FashionStudio.Api.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using FashionStudio.Api.Constants;
 
 namespace FashionStudio.Api.Services
 {
@@ -15,6 +17,10 @@ namespace FashionStudio.Api.Services
         }
         public string GenerateToken(User user)
         {
+            if (string.IsNullOrWhiteSpace(user.UserName))
+            {
+                throw new InvalidOperationException("User must have a username.");
+            }
             Claim [] claims = new Claim[]
             {
                 new Claim(
@@ -25,11 +31,13 @@ namespace FashionStudio.Api.Services
                 new Claim(
                     ClaimTypes.Name,
                     user.UserName
+                    ?? string.Empty
                     ),
 
                 new Claim(
-                    CustomClaimTypes.WorkSpaceId,
+                    CustomClaimTypes.WorkspaceId,
                     user.WorkSpaceId.ToString()
+                    ?? string.Empty
                     ),
                 
                 new Claim(
@@ -39,8 +47,12 @@ namespace FashionStudio.Api.Services
 
             };
 
+            var jwtKey = _configuration["Jwt:Key"]
+                ?? throw new InvalidOperationException("JWT key is not configured.");
+
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                Encoding.UTF8.GetBytes(jwtKey)
+            );
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -51,6 +63,8 @@ namespace FashionStudio.Api.Services
                 expires: DateTime.Now.AddDays(7),
                 signingCredentials: creds
                 );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
     }

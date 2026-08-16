@@ -12,7 +12,7 @@ namespace FashionStudio.Api.Models
 
         public string Name { get; set; } = string.Empty;
 
-        public int OwnerId { get; set; }   // clearer name than CreatedBy
+        public int OwnerId { get; set; }   
         public User? Owner { get; set; }
 
         public DateTime CreatedAt { get; set; }
