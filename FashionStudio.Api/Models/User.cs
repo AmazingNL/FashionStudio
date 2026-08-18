@@ -22,7 +22,6 @@ namespace FashionStudio.Api.Models
         public string FullName => $"{FirstName} {LastName}";
         public string UserName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public Role Role { get; set; } 
         public DateTime JoinedAt { get; set; }
         public bool IsActive { get; set; } = true; // true: active, false: inactive
         public string Password { get; internal set; } = string.Empty;

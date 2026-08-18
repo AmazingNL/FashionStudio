@@ -112,7 +112,7 @@ public static class QueryableExtensions
 
         // STEP 4: Create Parameter 'x' and Search Term Constant
 		var param = Expression.Parameter( typeof( T ), "x" );
-		var constant = Expression.Constant( searchTerm, typeof( T ) );
+		var constant = Expression.Constant( searchTerm);
 		Expression? combinedExpression = null;
 		// STEP 5: Loop through searchable properties and build:
 		foreach (var prop in searchableProps)

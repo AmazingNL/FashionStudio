@@ -2,20 +2,20 @@ using FashionStudio.Api.Data;
 using FashionStudio.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using FashionStudio.Api.DTOs;
-using Mapster;
-using FashionStudio.Api.Services.Interfaces;
+using FashionStudio.Api.Interfaces;
 using FashionStudio.Api.Mappers;
+using MapsterMapper;
 
 
 namespace FashionStudio.Api.Services
 {
     public class WorkSpaceService : IWorkSpaceService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
 
-        public WorkSpaceService(ApplicationDbContext context, IMapper mapper, IUserService userService)
+        public WorkSpaceService(AppDbContext context, IMapper mapper, IUserService userService)
         {
             _context = context;
             _mapper = mapper;
@@ -23,18 +23,20 @@ namespace FashionStudio.Api.Services
         }
 
 
-        public async Task<WorkSpaceResponseDTO> CreateWorkSpaceAsync(WorkSpaceRequestDTO request)
+        public async Task<WorkSpaceResponseDTO> CreateWorkSpaceAsync(
+            WorkSpaceRequestDTO request, int ownerId, CancellationToken cancellation)
         {
             if (_context == null) throw new InvalidOperationException("Database Context is not available");
             try
             {
                 var workSpace = _mapper.Map<WorkSpace>(request);
-                workSpace.CreatedAt = DateTime.UtcNow;
-                await _context.WorkSpaces.AddAsync(workSpace);
-                var user = await _userService.GetUserByIdAsync(request.OwnerId);
+                workSpace.OwnerId = ownerId;
+                await _context.WorkSpaces.AddAsync(workSpace, cancellation);
+                var user = await _userService.GetUserByIdAsync(ownerId);
                 if (user == null) throw new InvalidOperationException("Owner not found");
-                user.WorkSpaceId = workSpace.Id;
-                await _context.SaveChangesAsync();
+                user.WorkSpace = workSpace;
+                await _context.SaveChangesAsync(cancellation);
+                return _mapper.Map<WorkSpaceResponseDTO>(workSpace);
             }
             catch (Exception)
             {
@@ -43,18 +45,24 @@ namespace FashionStudio.Api.Services
         }
         public async Task<WorkSpaceResponseDTO> GetWorkSpaceByIdAsync(int id)
         {
-            var entity = await _context.WorkSpaces.FindAsync(id);
-            return entity.Adapt<WorkSpaceResponseDTO>();
+            var workSpace = await _context.WorkSpaces.FindAsync(id);
+            if (workSpace == null) throw new InvalidOperationException("Workspace not found");
+            return _mapper.Map<WorkSpaceResponseDTO>(workSpace);
+
         }
-        public async Task<IEnumerable<WorkSpace>> GetAllWorkSpacesAsync()
+        public async Task<IEnumerable<WorkSpaceResponseDTO>> GetAllWorkSpacesAsync()
         {
-            return await _context.WorkSpaces.ToListAsync();
+            var workSpaces = await _context.WorkSpaces.ToListAsync();
+            return _mapper.Map<IEnumerable<WorkSpaceResponseDTO>>(workSpaces);
         }
-        public async Task<WorkSpace> UpdateWorkSpaceAsync(WorkSpace workSpace)
+        public async Task<WorkSpaceResponseDTO> UpdateWorkSpaceAsync(int id, WorkSpaceRequestDTO request, CancellationToken cancellation)
         {
+            var workSpace = await _context.WorkSpaces.FindAsync(id);
+            if (workSpace == null) throw new InvalidOperationException("Workspace not found");
+            _mapper.Map(request, workSpace);
             _context.Entry(workSpace).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return workSpace;
+            return _mapper.Map<WorkSpaceResponseDTO>(workSpace);
         }
         public async Task<bool> DeleteWorkSpaceAsync(int id)
         {
