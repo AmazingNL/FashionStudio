@@ -8,7 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Mapster;
 using MapsterMapper;
+using Microsoft.OpenApi;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FashionStudio.Api
 {
@@ -20,7 +22,7 @@ namespace FashionStudio.Api
         {
             Env.Load();
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<AppDbContext>(options =>
+            builder.Services.AddDbContext<AppDbContext>(options => 
             options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
             // Add services to the container.
@@ -39,7 +41,29 @@ namespace FashionStudio.Api
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Paste the raw token from /api/auth/login here (no \"Bearer \" prefix needed)."
+                });
+
+                options.AddSecurityRequirement(doc => new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecuritySchemeReference("Bearer", doc, null),
+                        new List<string>()
+                    }
+                });
+            });
+            var jwtKey = builder.Configuration["Jwt:Key"]
+                ?? throw new InvalidOperationException("JWT key is not configured.");
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,15 +72,12 @@ namespace FashionStudio.Api
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
-            {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "yourIssuer",
-                    ValidAudience = "yourAudience",
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes("yourSecretKey"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
                 };
             });
 
@@ -71,8 +92,8 @@ namespace FashionStudio.Api
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.MapControllers();
 
             app.Run();

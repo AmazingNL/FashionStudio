@@ -120,6 +120,8 @@ ipch/
 
 # Visual Studio Trace Files
 *.e2e
+*.nettrace
+*.speedscope.json
 
 # TFS 2012 Local Workspace
 $tf/

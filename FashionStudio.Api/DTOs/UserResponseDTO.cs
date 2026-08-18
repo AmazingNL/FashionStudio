@@ -17,5 +17,7 @@ public class UserResponseDTO
     public string Email { get; set; } = string.Empty;
     [Searchable]
     public string Role { get; set; } = string.Empty;
+    [Searchable]
+    public string JoinedAt { get; set; } = string.Empty;
 
 }

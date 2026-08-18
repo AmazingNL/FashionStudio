@@ -3,11 +3,13 @@ using FashionStudio.Api.Interfaces;
 using FashionStudio.Api.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FashionStudio.Api.Controllers;
 
 
 [ApiController]
+[Authorize]
 [Route("api/user")]
 public class UserController : BaseController
 {
