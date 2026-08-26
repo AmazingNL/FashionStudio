@@ -12,10 +12,7 @@ namespace FashionStudio.Api.Models
         [Key]
         public int Id { get; set; }
 
-        public WorkSpace? WorkSpace { get; set; } = null;
-        public int? WorkSpaceId { get; set; } = null;
-
-        public ICollection<WorkSpace> OwnedWorkSpaces { get; set; } = new List<WorkSpace>();
+        public ICollection<WorkSpaceMembership> WorkSpaceMemberships { get; set; } = new List<WorkSpaceMembership>();
 
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

@@ -37,6 +37,25 @@ namespace FashionStudio.Api.Services
                 user.Password = HashPassword(request.Password);
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
+
+                var pendingInvitations = await _context.WorkSpaceInvitations
+                    .Where(i => i.Email == user.Email && i.ExpiresAt > DateTime.UtcNow)
+                    .ToListAsync();
+                foreach (var invitation in pendingInvitations)
+                {
+                    await _context.WorkSpaceMemberships.AddAsync(new WorkSpaceMembership
+                    {
+                        User = user,
+                        WorkSpaceId = invitation.WorkSpaceId,
+                        Role = invitation.Role,
+                    });
+                    _context.WorkSpaceInvitations.Remove(invitation);
+                }
+                if (pendingInvitations.Count > 0)
+                {
+                    await _context.SaveChangesAsync();
+                }
+
                 return _mapper.Map<UserResponseDTO>(user);
             }
             catch (Exception ex)

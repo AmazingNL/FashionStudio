@@ -21,24 +21,22 @@ namespace FashionStudio.Api.Data
         public DbSet<Payment> Payments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<WorkSpace> WorkSpaces { get; set; }
+        public DbSet<WorkSpaceMembership> WorkSpaceMemberships { get; set; }
+        public DbSet<WorkSpaceInvitation> WorkSpaceInvitations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Membership: WorkSpace 1 -> many Users
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.WorkSpace)
-                .WithMany(w => w.Users)
-                .HasForeignKey(u => u.WorkSpaceId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<WorkSpaceMembership>()
+                .HasOne(m => m.User)
+                .WithMany(u => u.WorkSpaceMemberships)
+                .HasForeignKey(m => m.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Ownership: User 1 -> many WorkSpaces
-            modelBuilder.Entity<WorkSpace>()
-                .HasOne(w => w.Owner)
-                .WithMany(u => u.OwnedWorkSpaces)
-                .HasForeignKey(w => w.OwnerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-        
+            modelBuilder.Entity<WorkSpaceMembership>()
+                .HasOne(m => m.WorkSpace)
+                .WithMany(w => w.Memberships)
+                .HasForeignKey(m => m.WorkSpaceId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Text;
 using DotNetEnv;
+using FashionStudio.Api.Configuration;
 using FashionStudio.Api.Data;
 using FashionStudio.Api.Interfaces;
 using FashionStudio.Api.Services;
@@ -33,12 +34,19 @@ namespace FashionStudio.Api
             builder.Services.AddSingleton(config);
             builder.Services.AddScoped<IMapper, ServiceMapper>();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.Converters
+                    .Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
+
 
             builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IWorkSpaceService, WorkSpaceService>();
+            builder.Services.AddScoped<IWorkSpaceInvitation, WorkSpaceInvitationService>();
+            builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

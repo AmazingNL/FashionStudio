@@ -10,5 +10,11 @@ public class WorkSpaceMapper : IRegister
             .Map(dest => dest.CreatedAt, src => DateTime.UtcNow);
 
         config.NewConfig<WorkSpace, WorkSpaceResponseDTO>();
+
+        config.NewConfig<WorkSpaceMembership, WorkSpaceMemberDTO>()
+        .Map(dest => dest.FullName, src => src.User!.FullName);
+
+        config.NewConfig<WorkSpaceInvitation, InvitationRequestDTO>();
+
     }
 }

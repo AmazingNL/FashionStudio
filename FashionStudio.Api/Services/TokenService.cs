@@ -34,16 +34,8 @@ namespace FashionStudio.Api.Services
                     ?? string.Empty
                     ),
 
-                new Claim(
-                    CustomClaimTypes.WorkspaceId,
-                    user.WorkSpaceId.ToString()
-                    ?? string.Empty
-                    ),
                 
-                new Claim(
-                    CustomClaimTypes.Role,
-                    user.Role.ToString()
-                    )
+
 
             };
 
