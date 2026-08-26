@@ -1,73 +1,138 @@
 ﻿using FashionStudio.Api.Data;
 using FashionStudio.Api.Models;
 using BCrypt.Net;
+using FashionStudio.Api.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using FashionStudio.Api.DTOs;
+using FashionStudio.Api.Mappers;
+using FashionStudio.Api.Extensions;
+using MapsterMapper;
+using Mapster;
+
 
 namespace FashionStudio.Api.Services
 {
-    public class UserService : IUserService
+    public class UserService : IUserService 
     {
         private readonly AppDbContext? _context;
-        public UserService(AppDbContext? context)
+        private readonly IMapper _mapper;
+        public UserService(AppDbContext? context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        Task<bool> IUserService.CheckPasswordAsync(User user, string password)
+        public async Task<UserResponseDTO> RegisterUserAsync(RegisterRequestDTO request)
         {
-            throw new NotImplementedException();
-        }
+            if (_context == null)
+                throw new InvalidOperationException("Database context is not available.");
 
-        public async Task<User> CreateUserAsync(User user, string password)
-        {
             try
             {
-                user.Password = HashPassword(password);
-                user.JoinedAt = DateTime.UtcNow;
-                user.IsActive = true;
-                _context!.Users.Add(user);
+                var user = _mapper.Map<User>(request);
+                user.Password = HashPassword(request.Password);
+                await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
-                return user;
+
+                var pendingInvitations = await _context.WorkSpaceInvitations
+                    .Where(i => i.Email == user.Email && i.ExpiresAt > DateTime.UtcNow)
+                    .ToListAsync();
+                foreach (var invitation in pendingInvitations)
+                {
+                    await _context.WorkSpaceMemberships.AddAsync(new WorkSpaceMembership
+                    {
+                        User = user,
+                        WorkSpaceId = invitation.WorkSpaceId,
+                        Role = invitation.Role,
+                    });
+                    _context.WorkSpaceInvitations.Remove(invitation);
+                }
+                if (pendingInvitations.Count > 0)
+                {
+                    await _context.SaveChangesAsync();
+                }
+
+                return _mapper.Map<UserResponseDTO>(user);
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that may occur during user creation
                 throw new InvalidOperationException("An error occurred while creating the user.", ex);
             }
         }
 
-        Task<User> IUserService.GetUserByEmailAsync(string email)
+        public async Task<User> VerifyPasswordAsync(LoginRequestDTO request)
         {
-            throw new NotImplementedException();
+            if (_context == null)
+                throw new InvalidOperationException("Database context is not available.");
+
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.UserName);
+            if (user == null)
+                throw new UnauthorizedAccessException("Invalid username or password.");
+
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+            if (!isPasswordValid)
+                throw new UnauthorizedAccessException("Invalid username or password.");
+
+            return user;
         }
 
-        Task<User> IUserService.GetUserByIdAsync(int userId)
+        public async Task<PageResultDTO<UserResponseDTO>> GetAllUsersAsync(QueryParam queryParam, CancellationToken cancellation)
         {
-            throw new NotImplementedException();
+            if (_context == null)
+                throw new InvalidOperationException("Database context is not available.");
+            var pageDto = await _context.Users
+                .ProjectToType<UserResponseDTO>()
+                .SearchByAttributes(queryParam.SearchTerm)
+                .OrderByProperty(queryParam.SortBy, queryParam.IsDescending)
+                .ToPagedListAsync(queryParam, cancellation);
+            return pageDto;
+
+        }
+
+        public async Task<User> GetUserByIdAsync(int userId)
+        {
+            if (_context == null)
+                throw new InvalidOperationException("Database context is not available.");
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+                throw new KeyNotFoundException("User not found.");
+            return user;
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            if (_context == null)
+                throw new InvalidOperationException("Database context is not available.");
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+                throw new KeyNotFoundException("User not found.");
+            return user;
         }
 
         private string HashPassword(string password)
         {
-            // Implement a secure password hashing mechanism here
-            // For example, you can use BCrypt or PBKDF2
             try
             {
                 if (ValidatePass(password))
-                    password = BCrypt.Net.BCrypt.HashPassword(password);
+                    return BCrypt.Net.BCrypt.HashPassword(password);
+                // ValidatePass will throw on invalid password, but return original as fallback
                 return password;
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that may occur during hashing
                 throw new InvalidOperationException("An error occurred while hashing the password.", ex);
             }
-
         }
 
         private bool ValidatePass(string password)
         {
-            // Implement a secure password hashing mechanism here
-            // For example, you can use BCrypt or PBKDF2
-            password = password.Trim();
+            password = password?.Trim() ?? string.Empty;
             if (string.IsNullOrEmpty(password))
             {
                 throw new ArgumentException("Password cannot be null or empty.", nameof(password));

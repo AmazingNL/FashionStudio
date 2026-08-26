@@ -120,6 +120,8 @@ ipch/
 
 # Visual Studio Trace Files
 *.e2e
+*.nettrace
+*.speedscope.json
 
 # TFS 2012 Local Workspace
 $tf/
@@ -361,3 +363,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Environment variables / secrets
+.env
+*.env
+!.env.example

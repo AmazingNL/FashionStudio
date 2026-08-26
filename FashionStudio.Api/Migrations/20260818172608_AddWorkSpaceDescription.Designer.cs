@@ -3,6 +3,7 @@ using System;
 using FashionStudio.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FashionStudio.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260818172608_AddWorkSpaceDescription")]
+    partial class AddWorkSpaceDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -473,11 +476,19 @@ namespace FashionStudio.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("WorkSpaceId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("WorkSpaceId");
 
                     b.ToTable("Users");
                 });
@@ -508,89 +519,14 @@ namespace FashionStudio.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkSpaces");
-                });
-
-            modelBuilder.Entity("FashionStudio.Api.Models.WorkSpaceInvitation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("InvitationCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("OwnerId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("Role")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("WorkSpaceId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("WorkSpaceId");
-
-                    b.ToTable("WorkSpaceInvitations");
-                });
-
-            modelBuilder.Entity("FashionStudio.Api.Models.WorkSpaceMembership", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("JoinedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("Role")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("WorkSpaceId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("WorkSpaceId");
-
-                    b.ToTable("WorkSpaceMemberships");
+                    b.ToTable("WorkSpaces");
                 });
 
             modelBuilder.Entity("FashionStudio.Api.Models.ActivityLog", b =>
@@ -789,42 +725,25 @@ namespace FashionStudio.Api.Migrations
                     b.Navigation("WorkSpace");
                 });
 
-            modelBuilder.Entity("FashionStudio.Api.Models.WorkSpaceInvitation", b =>
+            modelBuilder.Entity("FashionStudio.Api.Models.User", b =>
                 {
-                    b.HasOne("FashionStudio.Api.Models.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FashionStudio.Api.Models.WorkSpace", "WorkSpace")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("WorkSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("WorkSpace");
                 });
 
-            modelBuilder.Entity("FashionStudio.Api.Models.WorkSpaceMembership", b =>
+            modelBuilder.Entity("FashionStudio.Api.Models.WorkSpace", b =>
                 {
-                    b.HasOne("FashionStudio.Api.Models.User", "User")
-                        .WithMany("WorkSpaceMemberships")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("FashionStudio.Api.Models.User", "Owner")
+                        .WithMany("OwnedWorkSpaces")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FashionStudio.Api.Models.WorkSpace", "WorkSpace")
-                        .WithMany("Memberships")
-                        .HasForeignKey("WorkSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("WorkSpace");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("FashionStudio.Api.Models.MeasurementSet", b =>
@@ -834,12 +753,12 @@ namespace FashionStudio.Api.Migrations
 
             modelBuilder.Entity("FashionStudio.Api.Models.User", b =>
                 {
-                    b.Navigation("WorkSpaceMemberships");
+                    b.Navigation("OwnedWorkSpaces");
                 });
 
             modelBuilder.Entity("FashionStudio.Api.Models.WorkSpace", b =>
                 {
-                    b.Navigation("Memberships");
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
