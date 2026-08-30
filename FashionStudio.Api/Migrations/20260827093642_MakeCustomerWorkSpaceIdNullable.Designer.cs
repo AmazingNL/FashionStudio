@@ -3,6 +3,7 @@ using System;
 using FashionStudio.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FashionStudio.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260827093642_MakeCustomerWorkSpaceIdNullable")]
+    partial class MakeCustomerWorkSpaceIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,7 +275,7 @@ namespace FashionStudio.Api.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("WorkSpaceId")
+                    b.Property<int>("WorkSpaceId")
                         .HasColumnType("integer");
 
                     b.Property<string>("label")
@@ -298,7 +301,7 @@ namespace FashionStudio.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AssignedToUserId")
+                    b.Property<int>("AssignedToUserId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
@@ -316,7 +319,7 @@ namespace FashionStudio.Api.Migrations
                     b.Property<DateTime>("DeadlineDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeliveredDate")
+                    b.Property<DateTime>("DeliveredDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -617,7 +620,7 @@ namespace FashionStudio.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("FashionStudio.Api.Models.WorkSpace", "WorkSpace")
-                        .WithMany("Customers")
+                        .WithMany()
                         .HasForeignKey("WorkSpaceId");
 
                     b.Navigation("CreatedByUser");
@@ -687,7 +690,9 @@ namespace FashionStudio.Api.Migrations
 
                     b.HasOne("FashionStudio.Api.Models.WorkSpace", "WorkSpace")
                         .WithMany()
-                        .HasForeignKey("WorkSpaceId");
+                        .HasForeignKey("WorkSpaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CreatedByUser");
 
@@ -701,7 +706,8 @@ namespace FashionStudio.Api.Migrations
                     b.HasOne("FashionStudio.Api.Models.User", "AssignedToUser")
                         .WithMany()
                         .HasForeignKey("AssignedToUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("FashionStudio.Api.Models.User", "CreatedByUser")
                         .WithMany()
@@ -839,8 +845,6 @@ namespace FashionStudio.Api.Migrations
 
             modelBuilder.Entity("FashionStudio.Api.Models.WorkSpace", b =>
                 {
-                    b.Navigation("Customers");
-
                     b.Navigation("Memberships");
                 });
 #pragma warning restore 612, 618

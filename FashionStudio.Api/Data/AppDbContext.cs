@@ -37,6 +37,12 @@ namespace FashionStudio.Api.Data
                 .WithMany(w => w.Memberships)
                 .HasForeignKey(m => m.WorkSpaceId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.AssignedToUser)
+                .WithMany()
+                .HasForeignKey(o => o.AssignedToUserId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

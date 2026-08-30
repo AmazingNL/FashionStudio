@@ -1,21 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
-
-namespace FashionStudio.Api.Models
+namespace FashionStudio.Api.DTOs
 {
-    public class MeasurementFiled
+    public class MeasurementFieldDTO
     {
-        public MeasurementFiled()
-        {
-        }
-
-        [Key]
-        public int Id { get; set; }
-
-        public int MeasurementSetId { get; set; }      // FK
-        public MeasurementSet? MeasurementSet { get; set; }  // Navigation
-
         public decimal Height { get; set; }
         public decimal Bust { get; set; }
         public decimal UnderBust { get; set; }
@@ -34,14 +20,6 @@ namespace FashionStudio.Api.Models
         public decimal Thigh { get; set; }
         public decimal Knee { get; set; }
         public decimal Ankle { get; set; }
-        public string CustomMeasurementJson { get; set; } = "{}";
-
-
-        [NotMapped]
-        public Dictionary<string, decimal> CustomMeasurements 
-        { get =>JsonSerializer.Deserialize<Dictionary<string, decimal>>(CustomMeasurementJson)
-                ?? new Dictionary<string, decimal>();
-            set => CustomMeasurementJson = JsonSerializer.Serialize(value); }
-
+        public Dictionary<string, decimal> CustomMeasurements { get; set; } = new();
     }
 }

@@ -53,19 +53,7 @@ public class AuthController : BaseController
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDTO request)
     {
-        try
-        {
-            var user = await _userService.RegisterUserAsync(request);
-            return Ok(user);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-
-            return StatusCode(500, new
-            {
-                message = ex.Message
-            });
-        }
+        var user = await _userService.RegisterUserAsync(request);
+        return Ok(user);
     }
 }

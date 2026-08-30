@@ -13,6 +13,7 @@ public static class QueryableExtensions
 	private static readonly ConcurrentDictionary<Type, PropertyInfo[]> SearchablePropertiesCache = new ConcurrentDictionary<Type, PropertyInfo[]>();
 
 	private static readonly MethodInfo StringContainsMethod = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) })!;
+	private static readonly MethodInfo ToLowerMethod = typeof(string).GetMethod(nameof(string.ToLower), Type.EmptyTypes)!;
 
 
 	public static async Task<PageResultDTO<T>> ToPagedListAsync<T>(
@@ -121,8 +122,10 @@ public static class QueryableExtensions
 			var propAccess = Expression.Property(param, prop);
 			//   - nullCheck (x.Property != null)
 			var nullCheck = Expression.NotEqual(propAccess, Expression.Constant(null, typeof(string)));
-			//   - containsCall (x.Property.Contains(searchTerm))
-			var containCall = Expression.Call(propAccess, StringContainsMethod, constant);
+			//   - lower-case the property too, so the search is actually case-insensitive
+			var propToLower = Expression.Call(propAccess, ToLowerMethod);
+			//   - containsCall (x.Property.ToLower().Contains(searchTerm))
+			var containCall = Expression.Call(propToLower, StringContainsMethod, constant);
 			//   - propertyExpr = Expression.AndAlso(nullCheck, containsCall)
 			var propExpr = Expression.AndAlso(nullCheck, containCall);
 			//   - combinedExpr = combinedExpr == null ? propertyExpr : Expression.OrElse(combinedExpression, propertyExpr)

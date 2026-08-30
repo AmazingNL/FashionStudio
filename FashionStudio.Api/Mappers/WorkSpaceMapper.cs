@@ -16,5 +16,13 @@ public class WorkSpaceMapper : IRegister
 
         config.NewConfig<WorkSpaceInvitation, InvitationRequestDTO>();
 
+        config.NewConfig<Customer, CustomerWithMeasurementsDTO>();
+
+        config.NewConfig<MeasurementSet, MeasurementSetDTO>()
+            .Map(dest => dest.Fields, src => src.MeasurementFiled);
+
+        config.NewConfig<MeasurementFiled, MeasurementFieldDTO>()
+            .Map(dest => dest.CustomMeasurements, src => src.CustomMeasurements);
+
     }
 }

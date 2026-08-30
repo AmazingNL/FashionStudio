@@ -3,6 +3,7 @@ using System;
 using FashionStudio.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FashionStudio.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260828211627_MakeMeasurementSetWorkSpaceIdNullable")]
+    partial class MakeMeasurementSetWorkSpaceIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,7 +301,7 @@ namespace FashionStudio.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AssignedToUserId")
+                    b.Property<int>("AssignedToUserId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
@@ -316,7 +319,7 @@ namespace FashionStudio.Api.Migrations
                     b.Property<DateTime>("DeadlineDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeliveredDate")
+                    b.Property<DateTime>("DeliveredDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -701,7 +704,8 @@ namespace FashionStudio.Api.Migrations
                     b.HasOne("FashionStudio.Api.Models.User", "AssignedToUser")
                         .WithMany()
                         .HasForeignKey("AssignedToUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("FashionStudio.Api.Models.User", "CreatedByUser")
                         .WithMany()

@@ -25,15 +25,8 @@ public class UserController : BaseController
         [FromQuery] QueryParam queryParam,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var user = await _userService.GetAllUsersAsync(queryParam, cancellationToken);
-            return Ok(user);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var user = await _userService.GetAllUsersAsync(queryParam, cancellationToken);
+        return Ok(user);
     }
 
 }

@@ -3,8 +3,8 @@ using FashionStudio.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using FashionStudio.Api.DTOs;
 using FashionStudio.Api.Interfaces;
-using FashionStudio.Api.Mappers;
 using MapsterMapper;
+using FashionStudio.Api.Exceptions;
 
 
 namespace FashionStudio.Api.Services
@@ -26,44 +26,48 @@ namespace FashionStudio.Api.Services
         public async Task<WorkSpaceResponseDTO> CreateWorkSpaceAsync(
             WorkSpaceRequestDTO request, int ownerId, CancellationToken cancellation)
         {
-            if (_context == null) throw new InvalidOperationException("Database Context is not available");
-            try
-            {
-                var workSpace = _mapper.Map<WorkSpace>(request);
+            var workSpace = _mapper.Map<WorkSpace>(request);
 
-                await _context.WorkSpaces.AddAsync(workSpace, cancellation);
-                var user = await _userService.GetUserByIdAsync(ownerId);
-                if (user == null) throw new InvalidOperationException("Owner not found");
-                var membership = new WorkSpaceMembership
-                {
-                    User = user,
-                    WorkSpace = workSpace,
-                    Role = Role.Owner,
-                };
-                await _context.WorkSpaceMemberships.AddAsync(membership, cancellation);
-                await _context.SaveChangesAsync(cancellation);
+            var existingWorkSpace = _context.WorkSpaces.FirstOrDefault(w => w.Name == workSpace.Name);
+            if (existingWorkSpace != null) throw new ConflictException("Work Space already exist"); 
 
-                if (workSpace == null) throw new InvalidOperationException("Workspace not found after creation.");
-                return await MapWorkSpaceWithMembersAsync(workSpace);
-            }
-            catch (Exception)
+            await _context.WorkSpaces.AddAsync(workSpace, cancellation);
+            var user = await _userService.GetUserByIdAsync(ownerId);
+            if (user == null) throw new NotFoundException("Owner not found");
+            var membership = new WorkSpaceMembership
             {
-                throw new InvalidOperationException("An error occurred while creating the workspace.");
-            }
+                User = user,
+                WorkSpace = workSpace,
+                Role = Role.Owner,
+            };
+            await _context.WorkSpaceMemberships.AddAsync(membership, cancellation);
+            await _context.SaveChangesAsync(cancellation);
+
+            if (workSpace == null) throw new NotFoundException("Workspace not found after creation.");
+            return await MapWorkSpaceWithMembersAsync(workSpace);
         }
 
 
-        public async Task<bool> IsOwnerOfWorkSpaceAsync(int userId, int workSpaceId, CancellationToken cancellation)
+        public async Task<bool> IsOwnerOfWorkSpaceAsync(
+            int userId, 
+            int workSpaceId, 
+            CancellationToken cancellation)
         {
             var membership = await _context.WorkSpaceMemberships
-                .FirstOrDefaultAsync(m => m.UserId == userId && m.WorkSpaceId == workSpaceId && m.Role == Role.Owner, cancellation);
+                .FirstOrDefaultAsync(m => m.UserId == userId 
+                && m.WorkSpaceId == workSpaceId 
+                && m.Role == Role.Owner, cancellation);
             return membership != null;
         }
 
-        public async Task<bool> IsMemberOfWorkSpaceAsync(string email, int workSpaceId, CancellationToken cancellation)
+        public async Task<bool> IsMemberOfWorkSpaceAsync(
+            string email, 
+            int workSpaceId, 
+            CancellationToken cancellation)
         {
             var membership = await _context.WorkSpaceMemberships
-                .FirstOrDefaultAsync(m => m.User.Email == email && m.WorkSpaceId == workSpaceId, cancellation);
+                .FirstOrDefaultAsync(m => m.User.Email == email 
+                && m.WorkSpaceId == workSpaceId, cancellation);
             return membership != null;
         }
 
@@ -84,6 +88,7 @@ namespace FashionStudio.Api.Services
             return _mapper.Map<IEnumerable<WorkSpaceResponseDTO>>(workSpaces);
         }
 
+        // Helper methods
         private async Task<WorkSpaceResponseDTO> MapWorkSpaceWithMembersAsync(WorkSpace workSpace)
         {
             var memberships = await _context.WorkSpaceMemberships
@@ -91,6 +96,14 @@ namespace FashionStudio.Api.Services
                 .Where(m => m.WorkSpaceId == workSpace.Id)
                 .ToListAsync();
             workSpace.Memberships = memberships;
+
+            var customers = await _context.Customers
+                .Include(c => c.MeasurementSets)
+                    .ThenInclude(ms => ms.MeasurementFiled)
+                .Where(c => c.WorkSpaceId == workSpace.Id)
+                .ToListAsync();
+            workSpace.Customers = customers;
+
             return _mapper.Map<WorkSpaceResponseDTO>(workSpace);
         }
 

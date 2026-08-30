@@ -15,6 +15,7 @@ namespace FashionStudio.Api.DTOs
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public Unit DefaultMeasurementUnit { get; set; } = Unit.Cm;
         public ICollection<WorkSpaceMemberDTO> Memberships { get; set; } = new List<WorkSpaceMemberDTO>();
+        public ICollection<CustomerWithMeasurementsDTO> Customers { get; set; } = new List<CustomerWithMeasurementsDTO>();
 
     }
 }

@@ -1,12 +1,7 @@
-using FashionStudio.Api.Services;
 using FashionStudio.Api.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using FashionStudio.Api.Models;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using FashionStudio.Api.Interfaces;
-using System.Threading;
 
 namespace FashionStudio.Api.Controllers;
 
@@ -28,51 +23,30 @@ public class WorkSpaceController : BaseController
         [FromBody] WorkSpaceRequestDTO request,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var ownerId = GetCurrentUserId() ?? throw new InvalidOperationException("User ID not found");
+        var ownerId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
 
-            var createdWorkSpace = await _workSpaceService
-                .CreateWorkSpaceAsync(
-                request,
-                ownerId,
-                cancellationToken);
-            return CreatedAtAction(
-                nameof(GetWorkSpacesByIdAsync),
-                new { id = createdWorkSpace.Id }, createdWorkSpace);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var createdWorkSpace = await _workSpaceService
+            .CreateWorkSpaceAsync(
+            request,
+            ownerId,
+            cancellationToken);
+        return CreatedAtAction(
+            nameof(GetWorkSpacesByIdAsync),
+            new { id = createdWorkSpace.Id }, createdWorkSpace);
     }
 
     [HttpGet("workspaces/{id}")]
     public async Task<IActionResult> GetWorkSpacesByIdAsync(int id)
     {
-        try
-        {
-            var workSpaces = await _workSpaceService.GetWorkSpaceByIdAsync(id);
-            return Ok(workSpaces);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var workSpaces = await _workSpaceService.GetWorkSpaceByIdAsync(id);
+        return Ok(workSpaces);
     }
 
     [HttpGet("list")]
     public async Task<IActionResult> GetAllWorkSpacesAsync()
     {
-        try
-        {
-            var workSpaces = await _workSpaceService.GetAllWorkSpacesAsync();
-            return Ok(workSpaces);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var workSpaces = await _workSpaceService.GetAllWorkSpacesAsync();
+        return Ok(workSpaces);
     }
 
     [HttpPost("invite")]
@@ -80,20 +54,13 @@ public class WorkSpaceController : BaseController
         [FromBody] InvitationRequestDTO request,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var ownerId = GetCurrentUserId() ?? throw new InvalidOperationException("User ID not found");
-            var invitationResponse = await _workSpaceInvitationService
-                .SendInvitationAsync(
-                request,
-                ownerId,
-                cancellationToken);
-            return Ok(invitationResponse);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var ownerId = GetCurrentUserId() ?? throw new InvalidOperationException("User ID not found");
+        var invitationResponse = await _workSpaceInvitationService
+            .SendInvitationAsync(
+            request,
+            ownerId,
+            cancellationToken);
+        return Ok(invitationResponse);
     }
 
     [HttpPost("respond-invitation")]
@@ -102,18 +69,11 @@ public class WorkSpaceController : BaseController
     [FromBody] AcceptInvitationDTO request,
     CancellationToken cancellationToken)
     {
-        try
-        {
-            var response = await _workSpaceInvitationService
-                .RespondToInvitationAsync(
-                request.InvitationCode,
-                request.Status,
-                cancellationToken);
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var response = await _workSpaceInvitationService
+            .RespondToInvitationAsync(
+            request.InvitationCode,
+            request.Status,
+            cancellationToken);
+        return Ok(response);
     }
 }

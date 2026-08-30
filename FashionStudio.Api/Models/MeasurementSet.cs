@@ -9,28 +9,14 @@ namespace FashionStudio.Api.Models
         public MeasurementSet()
         {
         }
-        //public MeasurementSet(int measurementSetId, Customer customer, Workspace workspace,
-        //    string label, string note, Unit unit, List<MeasurementFiled> measurementFiled,
-        //    DateTime dateTaken, DateTime updatedAt, User createdByUser)
-        //{
-        //    MeasurementSetId = measurementSetId;
-        //    Customer = customer;
-        //    Workspace = workspace;
-        //    this.label = label;
-        //    Note = note;
-        //    Unit = unit;
-        //    MeasurementFiled = measurementFiled;
-        //    DateTaken = dateTaken;
-        //    UpdatedAt = updatedAt;
-        //    CreatedByUser = createdByUser;
-        //}
+
         [Key]
         public int Id { get; set; }
 
         public int CustomerId { get; set; }
         public Customer? Customer { get; set; }
 
-        public int WorkSpaceId { get; set; }
+        public int? WorkSpaceId { get; set; }
         public WorkSpace? WorkSpace { get; set; }
 
         public int CreatedByUserId { get; set; }

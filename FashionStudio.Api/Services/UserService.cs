@@ -1,15 +1,10 @@
 ﻿using FashionStudio.Api.Data;
 using FashionStudio.Api.Models;
-using BCrypt.Net;
 using FashionStudio.Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using FashionStudio.Api.DTOs;
-using FashionStudio.Api.Mappers;
 using FashionStudio.Api.Extensions;
+using FashionStudio.Api.Exceptions;
 using MapsterMapper;
 using Mapster;
 
@@ -18,9 +13,9 @@ namespace FashionStudio.Api.Services
 {
     public class UserService : IUserService 
     {
-        private readonly AppDbContext? _context;
+        private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        public UserService(AppDbContext? context, IMapper mapper)
+        public UserService(AppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -28,40 +23,35 @@ namespace FashionStudio.Api.Services
 
         public async Task<UserResponseDTO> RegisterUserAsync(RegisterRequestDTO request)
         {
-            if (_context == null)
-                throw new InvalidOperationException("Database context is not available.");
 
-            try
+            var user = _mapper.Map<User>(request);
+            user.Password = HashPassword(request.Password);
+
+           var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+            if (existingUser != null) throw new ConflictException("A user with this email already exist");
+
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+
+            var pendingInvitations = await _context.WorkSpaceInvitations
+                .Where(i => i.Email == user.Email && i.ExpiresAt > DateTime.UtcNow)
+                .ToListAsync();
+            foreach (var invitation in pendingInvitations)
             {
-                var user = _mapper.Map<User>(request);
-                user.Password = HashPassword(request.Password);
-                await _context.Users.AddAsync(user);
+                await _context.WorkSpaceMemberships.AddAsync(new WorkSpaceMembership
+                {
+                    User = user,
+                    WorkSpaceId = invitation.WorkSpaceId,
+                    Role = invitation.Role,
+                });
+                _context.WorkSpaceInvitations.Remove(invitation);
+            }
+            if (pendingInvitations.Count > 0)
+            {
                 await _context.SaveChangesAsync();
-
-                var pendingInvitations = await _context.WorkSpaceInvitations
-                    .Where(i => i.Email == user.Email && i.ExpiresAt > DateTime.UtcNow)
-                    .ToListAsync();
-                foreach (var invitation in pendingInvitations)
-                {
-                    await _context.WorkSpaceMemberships.AddAsync(new WorkSpaceMembership
-                    {
-                        User = user,
-                        WorkSpaceId = invitation.WorkSpaceId,
-                        Role = invitation.Role,
-                    });
-                    _context.WorkSpaceInvitations.Remove(invitation);
-                }
-                if (pendingInvitations.Count > 0)
-                {
-                    await _context.SaveChangesAsync();
-                }
-
-                return _mapper.Map<UserResponseDTO>(user);
             }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("An error occurred while creating the user.", ex);
-            }
+
+            return _mapper.Map<UserResponseDTO>(user);
         }
 
         public async Task<User> VerifyPasswordAsync(LoginRequestDTO request)
@@ -82,8 +72,7 @@ namespace FashionStudio.Api.Services
 
         public async Task<PageResultDTO<UserResponseDTO>> GetAllUsersAsync(QueryParam queryParam, CancellationToken cancellation)
         {
-            if (_context == null)
-                throw new InvalidOperationException("Database context is not available.");
+
             var pageDto = await _context.Users
                 .ProjectToType<UserResponseDTO>()
                 .SearchByAttributes(queryParam.SearchTerm)
