@@ -127,5 +127,46 @@ namespace FashionStudio.Api.Tests.Integration
             // whole real pipeline, not just in the service-level unit tests.
             Assert.Equal(HttpStatusCode.Forbidden, orderResponse.StatusCode);
         }
+
+        [Fact]
+        public async Task Orders_AreIsolatedBetweenUnrelatedWorkSpaces()
+        {
+            var suffix = nameof(Orders_AreIsolatedBetweenUnrelatedWorkSpaces);
+
+            async Task<(string Token, int OrderId)> CreateWorkSpaceWithOrderAsync(string who)
+            {
+                var token = await RegisterAndLoginAsync($"{who}_{suffix}");
+                var workSpaceResponse = await _client.SendAsync(Authed(HttpMethod.Post, "/api/workspace/create", token,
+                    new WorkSpaceRequestDTO { Name = $"WS {who} {suffix}" }));
+                var workSpace = await workSpaceResponse.ReadAsAsync<WorkSpaceResponseDTO>();
+
+                var customerResponse = await _client.SendAsync(Authed(HttpMethod.Post, "/api/customer/create", token,
+                    new CustomerRequestDTO { FullName = $"Customer {who}", Phone = $"555-{who}-{suffix}" }));
+                var customer = await customerResponse.ReadAsAsync<CustomerResponseDTO>();
+                await _client.SendAsync(Authed(HttpMethod.Patch, $"/api/customer/{customer!.Id}/workspace/{workSpace!.Id}", token));
+
+                var orderResponse = await _client.SendAsync(Authed(HttpMethod.Post, "/api/order/create", token,
+                    new OrderRequestDTO { CustomerId = customer.Id, WorkSpaceId = workSpace.Id, Title = $"Order {who}" }));
+                var order = await orderResponse.ReadAsAsync<OrderResponseDTO>();
+
+                return (token, order!.Id);
+            }
+
+            var (tokenA, orderAId) = await CreateWorkSpaceWithOrderAsync("A");
+            var (tokenB, orderBId) = await CreateWorkSpaceWithOrderAsync("B");
+
+            // A has no membership at all in B's workspace — reading B's order by id must fail...
+            var crossReadResponse = await _client.SendAsync(Authed(HttpMethod.Get, $"/api/order/{orderBId}", tokenA));
+            Assert.Equal(HttpStatusCode.NotFound, crossReadResponse.StatusCode);
+
+            // ...and B's order must never show up in A's list, even though both exist in the DB.
+            var listResponse = await _client.SendAsync(Authed(HttpMethod.Get, "/api/order/list", tokenA));
+            var page = await listResponse.ReadAsAsync<PageResultDTO<OrderResponseDTO>>();
+            Assert.DoesNotContain(page!.Items!, o => o.Id == orderBId);
+
+            // Sanity check: A can still read its own order fine.
+            var ownReadResponse = await _client.SendAsync(Authed(HttpMethod.Get, $"/api/order/{orderAId}", tokenA));
+            Assert.Equal(HttpStatusCode.OK, ownReadResponse.StatusCode);
+        }
     }
 }

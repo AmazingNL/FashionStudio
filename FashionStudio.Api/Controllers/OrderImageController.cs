@@ -31,16 +31,18 @@ namespace FashionStudio.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetImageById(int id)
+        public async Task<IActionResult> GetImageById(int id, CancellationToken cancellationToken)
         {
-            var image = await _orderImageService.GetImageByIdAsync(id);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var image = await _orderImageService.GetImageByIdAsync(id, userId, cancellationToken);
             return Ok(image);
         }
 
         [HttpGet("{id}/file")]
         public async Task<IActionResult> GetImageFile(int id, CancellationToken cancellationToken)
         {
-            var (stream, contentType, fileName) = await _orderImageService.GetImageFileAsync(id, cancellationToken);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var (stream, contentType, fileName) = await _orderImageService.GetImageFileAsync(id, userId, cancellationToken);
             return File(stream, contentType, fileName);
         }
 
@@ -49,7 +51,8 @@ namespace FashionStudio.Api.Controllers
             [FromQuery] QueryParam queryParam,
             CancellationToken cancellationToken)
         {
-            var images = await _orderImageService.GetAllImagesAsync(queryParam, cancellationToken);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var images = await _orderImageService.GetAllImagesAsync(queryParam, userId, cancellationToken);
             return Ok(images);
         }
 

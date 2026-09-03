@@ -30,9 +30,10 @@ namespace FashionStudio.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrderById(int id)
+        public async Task<IActionResult> GetOrderById(int id, CancellationToken cancellationToken)
         {
-            var order = await _orderService.GetOrderByIdAsync(id);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var order = await _orderService.GetOrderByIdAsync(id, userId, cancellationToken);
             return Ok(order);
         }
 
@@ -41,7 +42,8 @@ namespace FashionStudio.Api.Controllers
             [FromQuery] QueryParam queryParam,
             CancellationToken cancellationToken)
         {
-            var orders = await _orderService.GetAllOrdersAsync(queryParam, cancellationToken);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var orders = await _orderService.GetAllOrdersAsync(queryParam, userId, cancellationToken);
             return Ok(orders);
         }
 

@@ -30,9 +30,10 @@ namespace FashionStudio.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFittingById(int id)
+        public async Task<IActionResult> GetFittingById(int id, CancellationToken cancellationToken)
         {
-            var fitting = await _fittingService.GetFittingByIdAsync(id);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var fitting = await _fittingService.GetFittingByIdAsync(id, userId, cancellationToken);
             return Ok(fitting);
         }
 
@@ -41,7 +42,8 @@ namespace FashionStudio.Api.Controllers
             [FromQuery] QueryParam queryParam,
             CancellationToken cancellationToken)
         {
-            var fittings = await _fittingService.GetAllFittingsAsync(queryParam, cancellationToken);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var fittings = await _fittingService.GetAllFittingsAsync(queryParam, userId, cancellationToken);
             return Ok(fittings);
         }
 

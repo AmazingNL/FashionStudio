@@ -30,9 +30,10 @@ namespace FashionStudio.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPaymentById(int id)
+        public async Task<IActionResult> GetPaymentById(int id, CancellationToken cancellationToken)
         {
-            var payment = await _paymentService.GetPaymentByIdAsync(id);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var payment = await _paymentService.GetPaymentByIdAsync(id, userId, cancellationToken);
             return Ok(payment);
         }
 
@@ -41,7 +42,8 @@ namespace FashionStudio.Api.Controllers
             [FromQuery] QueryParam queryParam,
             CancellationToken cancellationToken)
         {
-            var payments = await _paymentService.GetAllPaymentsAsync(queryParam, cancellationToken);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var payments = await _paymentService.GetAllPaymentsAsync(queryParam, userId, cancellationToken);
             return Ok(payments);
         }
     }

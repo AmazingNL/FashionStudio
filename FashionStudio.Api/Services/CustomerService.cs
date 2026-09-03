@@ -46,11 +46,18 @@ namespace FashionStudio.Api.Services
 
         }
 
-        public async Task<CustomerResponseDTO> GetCustomerByIdAsync(int id)
+        public async Task<CustomerResponseDTO> GetCustomerByIdAsync(int customerId, int actingUserId, CancellationToken cancellation)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            var customer = await _context.Customers.FindAsync(new object[] { customerId }, cancellation);
+            if (customer == null) throw new NotFoundException("Customer not found");
+
+            if (customer.WorkSpaceId != null)
             {
+                await _workspaceService.EnsureIsMemberAsync(customer.WorkSpaceId.Value, actingUserId, cancellation);
+            }
+            else if (customer.CreatedByUserId != actingUserId)
+            {
+                // Same "hide existence rather than reveal 403" reasoning as EnsureIsMemberAsync.
                 throw new NotFoundException("Customer not found");
             }
 
@@ -73,9 +80,15 @@ namespace FashionStudio.Api.Services
 
         }
 
-        public async Task<PageResultDTO<CustomerResponseDTO>> GetAllCustomersAsync(QueryParam queryParam, CancellationToken cancellation)
+        public async Task<PageResultDTO<CustomerResponseDTO>> GetAllCustomersAsync(QueryParam queryParam, int actingUserId, CancellationToken cancellation)
         {
+            var memberWorkSpaceIds = _context.WorkSpaceMemberships
+                .Where(m => m.UserId == actingUserId)
+                .Select(m => m.WorkSpaceId);
+
             var pageDto = await _context.Customers
+                .Where(c => (c.WorkSpaceId != null && memberWorkSpaceIds.Contains(c.WorkSpaceId.Value))
+                         || (c.WorkSpaceId == null && c.CreatedByUserId == actingUserId))
                 .ProjectToType<CustomerResponseDTO>()
                 .SearchByAttributes(queryParam.SearchTerm)
                 .OrderByProperty(queryParam.SortBy, queryParam.IsDescending)

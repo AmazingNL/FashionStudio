@@ -82,18 +82,22 @@ namespace FashionStudio.Api.Services
             return ToResponseDto(image);
         }
 
-        public async Task<OrderImageResponseDTO> GetImageByIdAsync(int imageId)
+        public async Task<OrderImageResponseDTO> GetImageByIdAsync(int imageId, int actingUserId, CancellationToken cancellation)
         {
-            var image = await _context.OrderImages.FindAsync(imageId);
+            var image = await _context.OrderImages.FindAsync(new object[] { imageId }, cancellation);
             if (image == null) throw new NotFoundException("Image not found");
+
+            await _workSpaceService.EnsureIsMemberAsync(image.WorkSpaceId, actingUserId, cancellation);
 
             return ToResponseDto(image);
         }
 
-        public async Task<(Stream Stream, string ContentType, string FileName)> GetImageFileAsync(int imageId, CancellationToken cancellation)
+        public async Task<(Stream Stream, string ContentType, string FileName)> GetImageFileAsync(int imageId, int actingUserId, CancellationToken cancellation)
         {
             var image = await _context.OrderImages.FindAsync(new object[] { imageId }, cancellation);
             if (image == null) throw new NotFoundException("Image not found");
+
+            await _workSpaceService.EnsureIsMemberAsync(image.WorkSpaceId, actingUserId, cancellation);
 
             var folder = Path.Combine(_environment.ContentRootPath, _storageSettings.OrderImagesPath);
             var fullPath = Path.Combine(folder, Path.GetFileName(image.StoredFileName));
@@ -103,9 +107,14 @@ namespace FashionStudio.Api.Services
             return (stream, image.ContentType, image.StoredFileName);
         }
 
-        public async Task<PageResultDTO<OrderImageResponseDTO>> GetAllImagesAsync(QueryParam queryParam, CancellationToken cancellation)
+        public async Task<PageResultDTO<OrderImageResponseDTO>> GetAllImagesAsync(QueryParam queryParam, int actingUserId, CancellationToken cancellation)
         {
+            var memberWorkSpaceIds = _context.WorkSpaceMemberships
+                .Where(m => m.UserId == actingUserId)
+                .Select(m => m.WorkSpaceId);
+
             var pageDto = await _context.OrderImages
+                .Where(i => memberWorkSpaceIds.Contains(i.WorkSpaceId))
                 .ProjectToType<OrderImageResponseDTO>()
                 .SearchByAttributes(queryParam.SearchTerm)
                 .OrderByProperty(queryParam.SortBy, queryParam.IsDescending)
