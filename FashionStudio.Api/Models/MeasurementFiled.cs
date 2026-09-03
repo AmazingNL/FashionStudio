@@ -9,33 +9,7 @@ namespace FashionStudio.Api.Models
         public MeasurementFiled()
         {
         }
-        //public MeasurementFiled(int measurementId, decimal height, decimal bust, decimal underBust,
-        //    decimal waist, decimal hip, decimal shoulderWidth, decimal neck, decimal sleeveLength,
-        //    decimal armhole, decimal bicep, decimal topLength, decimal dresslength, decimal skirtLength,
-        //    decimal inseam, decimal outseam, decimal thigh, decimal knee, decimal ankle,
-        //    Dictionary<string, decimal> customMeasurements)
-        //{
-        //    MeasurementId = measurementId;
-        //    Height = height;
-        //    Bust = bust;
-        //    UnderBust = underBust;
-        //    Waist = waist;
-        //    Hip = hip;
-        //    ShoulderWidth = shoulderWidth;
-        //    Neck = neck;
-        //    SleeveLength = sleeveLength;
-        //    Armhole = armhole;
-        //    Bicep = bicep;
-        //    TopLength = topLength;
-        //    Dresslength = dresslength;
-        //    SkirtLength = skirtLength;
-        //    Inseam = inseam;
-        //    Outseam = outseam;
-        //    Thigh = thigh;
-        //    Knee = knee;
-        //    Ankle = ankle;
-        //    CustomMeasurements = customMeasurements;
-        //}
+
         [Key]
         public int Id { get; set; }
 

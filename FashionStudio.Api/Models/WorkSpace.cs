@@ -22,5 +22,6 @@ namespace FashionStudio.Api.Models
         public Unit DefaultMeasurementUnit { get; set; } = Unit.Cm;
 
         public ICollection<WorkSpaceMembership> Memberships { get; set; } = new List<WorkSpaceMembership>();
+        public ICollection<Customer> Customers { get; set; } = new List<Customer>();
     }
 }

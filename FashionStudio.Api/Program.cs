@@ -1,17 +1,18 @@
-using System.Text;
 using DotNetEnv;
 using FashionStudio.Api.Configuration;
 using FashionStudio.Api.Data;
+using FashionStudio.Api.Exceptions;
 using FashionStudio.Api.Interfaces;
 using FashionStudio.Api.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 
 namespace FashionStudio.Api
 {
@@ -39,7 +40,8 @@ namespace FashionStudio.Api
                     options.JsonSerializerOptions.Converters
                     .Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
 
-
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
             builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
@@ -47,6 +49,13 @@ namespace FashionStudio.Api
             builder.Services.AddScoped<IWorkSpaceInvitation, WorkSpaceInvitationService>();
             builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
             builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<IMeasurementService, MeasurementService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IFittingService, FittingService>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
+            builder.Services.Configure<StorageSettings>(builder.Configuration.GetSection("Storage"));
+            builder.Services.AddScoped<IOrderImageService, OrderImageService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -100,7 +109,7 @@ namespace FashionStudio.Api
             }
 
             app.UseHttpsRedirection();
-
+            app.UseExceptionHandler();
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();

@@ -29,7 +29,7 @@ namespace FashionStudio.Api.Services
             message.Body = new TextPart("html") { Text = body };
 
             using var client = new SmtpClient();
-            client.CheckCertificateRevocation = false;
+            client.CheckCertificateRevocation = true;
             await client.ConnectAsync(
                 _settings.Host,
                 _settings.Port,

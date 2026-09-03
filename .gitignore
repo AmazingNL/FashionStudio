@@ -368,3 +368,6 @@ FodyWeavers.xsd
 .env
 *.env
 !.env.example
+
+# Locally-stored uploaded files
+FashionStudio.Api/App_Data/

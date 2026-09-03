@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,9 @@ namespace FashionStudio.Api.Data
     {
         public AppDbContext CreateDbContext(string[] args)
         {
+            // dotnet ef never runs Program.Main, so .env isn't loaded unless we do it here too.
+            Env.Load();
+
             // Respect ASPNETCORE_ENVIRONMENT so environment-specific settings can be used.
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
 

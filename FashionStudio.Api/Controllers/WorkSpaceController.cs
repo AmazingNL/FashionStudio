@@ -1,12 +1,7 @@
-using FashionStudio.Api.Services;
 using FashionStudio.Api.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using FashionStudio.Api.Models;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using FashionStudio.Api.Interfaces;
-using System.Threading;
 
 namespace FashionStudio.Api.Controllers;
 
@@ -17,7 +12,11 @@ public class WorkSpaceController : BaseController
 {
     private readonly IWorkSpaceService _workSpaceService;
     private readonly IWorkSpaceInvitation _workSpaceInvitationService;
-    public WorkSpaceController(IWorkSpaceService workSpaceService, IWorkSpaceInvitation workSpaceInvitationService)
+    public WorkSpaceController(
+        IWorkSpaceService workSpaceService,
+        IWorkSpaceInvitation workSpaceInvitationService,
+        IActivityLogService? activityLogService)
+        : base(activityLogService)
     {
         _workSpaceService = workSpaceService;
         _workSpaceInvitationService = workSpaceInvitationService;
@@ -28,51 +27,31 @@ public class WorkSpaceController : BaseController
         [FromBody] WorkSpaceRequestDTO request,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var ownerId = GetCurrentUserId() ?? throw new InvalidOperationException("User ID not found");
+        var ownerId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
 
-            var createdWorkSpace = await _workSpaceService
-                .CreateWorkSpaceAsync(
-                request,
-                ownerId,
-                cancellationToken);
-            return CreatedAtAction(
-                nameof(GetWorkSpacesByIdAsync),
-                new { id = createdWorkSpace.Id }, createdWorkSpace);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var createdWorkSpace = await _workSpaceService
+            .CreateWorkSpaceAsync(
+            request,
+            ownerId,
+            cancellationToken);
+        await LogActivityAsync("WorkSpace", createdWorkSpace.Id, "Created");
+        return CreatedAtAction(
+            nameof(GetWorkSpaceById),
+            new { id = createdWorkSpace.Id }, createdWorkSpace);
     }
 
     [HttpGet("workspaces/{id}")]
-    public async Task<IActionResult> GetWorkSpacesByIdAsync(int id)
+    public async Task<IActionResult> GetWorkSpaceById(int id)
     {
-        try
-        {
-            var workSpaces = await _workSpaceService.GetWorkSpaceByIdAsync(id);
-            return Ok(workSpaces);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var workSpaces = await _workSpaceService.GetWorkSpaceByIdAsync(id);
+        return Ok(workSpaces);
     }
 
     [HttpGet("list")]
     public async Task<IActionResult> GetAllWorkSpacesAsync()
     {
-        try
-        {
-            var workSpaces = await _workSpaceService.GetAllWorkSpacesAsync();
-            return Ok(workSpaces);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var workSpaces = await _workSpaceService.GetAllWorkSpacesAsync();
+        return Ok(workSpaces);
     }
 
     [HttpPost("invite")]
@@ -80,20 +59,14 @@ public class WorkSpaceController : BaseController
         [FromBody] InvitationRequestDTO request,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var ownerId = GetCurrentUserId() ?? throw new InvalidOperationException("User ID not found");
-            var invitationResponse = await _workSpaceInvitationService
-                .SendInvitationAsync(
-                request,
-                ownerId,
-                cancellationToken);
-            return Ok(invitationResponse);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var ownerId = GetCurrentUserId() ?? throw new InvalidOperationException("User ID not found");
+        var invitationResponse = await _workSpaceInvitationService
+            .SendInvitationAsync(
+            request,
+            ownerId,
+            cancellationToken);
+        await LogActivityAsync("WorkSpace", request.WorkSpaceId, "InvitationSent");
+        return Ok(invitationResponse);
     }
 
     [HttpPost("respond-invitation")]
@@ -102,18 +75,36 @@ public class WorkSpaceController : BaseController
     [FromBody] AcceptInvitationDTO request,
     CancellationToken cancellationToken)
     {
-        try
-        {
-            var response = await _workSpaceInvitationService
-                .RespondToInvitationAsync(
-                request.InvitationCode,
-                request.Status,
-                cancellationToken);
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { Message = ex.Message });
-        }
+        var response = await _workSpaceInvitationService
+            .RespondToInvitationAsync(
+            request.InvitationCode,
+            request.Status,
+            cancellationToken);
+        return Ok(response);
+    }
+
+    [HttpPatch("{workSpaceId}/members/{memberUserId}")]
+    public async Task<IActionResult> UpdateMemberRole(
+        int workSpaceId,
+        int memberUserId,
+        [FromBody] UpdateMemberRoleDTO request,
+        CancellationToken cancellationToken)
+    {
+        var actingUserId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+        var member = await _workSpaceService.UpdateMemberRoleAsync(workSpaceId, memberUserId, request.Role, actingUserId, cancellationToken);
+        await LogActivityAsync("WorkSpace", workSpaceId, $"MemberRoleChanged:{memberUserId}");
+        return Ok(member);
+    }
+
+    [HttpDelete("{workSpaceId}/members/{memberUserId}")]
+    public async Task<IActionResult> RemoveMember(
+        int workSpaceId,
+        int memberUserId,
+        CancellationToken cancellationToken)
+    {
+        var actingUserId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+        await _workSpaceService.RemoveMemberAsync(workSpaceId, memberUserId, actingUserId, cancellationToken);
+        await LogActivityAsync("WorkSpace", workSpaceId, $"MemberRemoved:{memberUserId}");
+        return NoContent();
     }
 }

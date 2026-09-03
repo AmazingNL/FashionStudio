@@ -40,5 +40,6 @@ namespace FashionStudio.Api.Models
         public DateTime PaymentDate { get; set; }
         public string Notes { get; set; } = string.Empty;
         public string ReceiptReference { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
     }
 }

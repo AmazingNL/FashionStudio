@@ -4,7 +4,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using FashionStudio.Api.Constants;
 
 namespace FashionStudio.Api.Services
 {
@@ -52,7 +51,7 @@ namespace FashionStudio.Api.Services
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddDays(7),
+                expires: DateTime.UtcNow.AddDays(7),
                 signingCredentials: creds
                 );
 

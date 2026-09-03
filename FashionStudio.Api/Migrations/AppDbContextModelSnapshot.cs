@@ -89,6 +89,9 @@ namespace FashionStudio.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("text");
@@ -108,7 +111,7 @@ namespace FashionStudio.Api.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("WorkSpaceId")
+                    b.Property<int?>("WorkSpaceId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -128,9 +131,6 @@ namespace FashionStudio.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Approved")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -148,6 +148,9 @@ namespace FashionStudio.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Outcome")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -262,6 +265,10 @@ namespace FashionStudio.Api.Migrations
                     b.Property<DateTime>("DateTaken")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Note")
                         .IsRequired()
                         .HasColumnType("text");
@@ -272,12 +279,8 @@ namespace FashionStudio.Api.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("WorkSpaceId")
+                    b.Property<int?>("WorkSpaceId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("label")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -298,7 +301,7 @@ namespace FashionStudio.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AssignedToUserId")
+                    b.Property<int?>("AssignedToUserId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
@@ -307,8 +310,8 @@ namespace FashionStudio.Api.Migrations
                     b.Property<int>("CreatedByUserId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Currency")
-                        .HasColumnType("numeric");
+                    b.Property<int>("Currency")
+                        .HasColumnType("integer");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
@@ -316,7 +319,7 @@ namespace FashionStudio.Api.Migrations
                     b.Property<DateTime>("DeadlineDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("DeliveredDate")
+                    b.Property<DateTime?>("DeliveredDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -366,16 +369,23 @@ namespace FashionStudio.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("StoredFileName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -408,6 +418,9 @@ namespace FashionStudio.Api.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CreatedByUserId")
                         .HasColumnType("integer");
@@ -617,10 +630,8 @@ namespace FashionStudio.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("FashionStudio.Api.Models.WorkSpace", "WorkSpace")
-                        .WithMany()
-                        .HasForeignKey("WorkSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Customers")
+                        .HasForeignKey("WorkSpaceId");
 
                     b.Navigation("CreatedByUser");
 
@@ -635,7 +646,7 @@ namespace FashionStudio.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FashionStudio.Api.Models.User", "Customer")
+                    b.HasOne("FashionStudio.Api.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -682,16 +693,14 @@ namespace FashionStudio.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("FashionStudio.Api.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("MeasurementSets")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FashionStudio.Api.Models.WorkSpace", "WorkSpace")
                         .WithMany()
-                        .HasForeignKey("WorkSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkSpaceId");
 
                     b.Navigation("CreatedByUser");
 
@@ -705,8 +714,7 @@ namespace FashionStudio.Api.Migrations
                     b.HasOne("FashionStudio.Api.Models.User", "AssignedToUser")
                         .WithMany()
                         .HasForeignKey("AssignedToUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("FashionStudio.Api.Models.User", "CreatedByUser")
                         .WithMany()
@@ -827,6 +835,11 @@ namespace FashionStudio.Api.Migrations
                     b.Navigation("WorkSpace");
                 });
 
+            modelBuilder.Entity("FashionStudio.Api.Models.Customer", b =>
+                {
+                    b.Navigation("MeasurementSets");
+                });
+
             modelBuilder.Entity("FashionStudio.Api.Models.MeasurementSet", b =>
                 {
                     b.Navigation("MeasurementFiled");
@@ -839,6 +852,8 @@ namespace FashionStudio.Api.Migrations
 
             modelBuilder.Entity("FashionStudio.Api.Models.WorkSpace", b =>
                 {
+                    b.Navigation("Customers");
+
                     b.Navigation("Memberships");
                 });
 #pragma warning restore 612, 618
