@@ -61,17 +61,7 @@ namespace FashionStudio.Api.Services
         public async Task<CustomerResponseDTO> AssignCustomerToWorkSpaceAsync(
             int customerId, int workSpaceId, int requiredUserId, CancellationToken ct)
         {
-            var membership = await 
-                _context.WorkSpaceMemberships.FirstOrDefaultAsync(
-                    m => m.WorkSpaceId == workSpaceId 
-                    && m.UserId == requiredUserId, ct
-                    );
-            if (membership == null 
-                || (membership.Role != Role.Owner 
-                && membership.Role != Role.Assistant))
-            {
-                throw new UnauthorizedAccessException("User not allow to add customer, you must be an Owner or Assistant");
-            }
+            await _workspaceService.EnsureIsOwnerOrAssistantAsync(workSpaceId, requiredUserId, ct);
 
             var customer = await _context.Customers.FindAsync(customerId, ct);
             if (customer == null) throw new NotFoundException("Customer not found");
@@ -91,6 +81,36 @@ namespace FashionStudio.Api.Services
                 .OrderByProperty(queryParam.SortBy, queryParam.IsDescending)
                 .ToPagedListAsync(queryParam, cancellation);
             return pageDto;
+        }
+
+        public Task<CustomerResponseDTO> DeactivateCustomerAsync(int customerId, int actingUserId, CancellationToken cancellation) =>
+            SetActiveStatusAsync(customerId, isActive: false, actingUserId, cancellation);
+
+        public Task<CustomerResponseDTO> ReactivateCustomerAsync(int customerId, int actingUserId, CancellationToken cancellation) =>
+            SetActiveStatusAsync(customerId, isActive: true, actingUserId, cancellation);
+
+        // Helper methods
+        private async Task<CustomerResponseDTO> SetActiveStatusAsync(int customerId, bool isActive, int actingUserId, CancellationToken cancellation)
+        {
+            var customer = await _context.Customers.FindAsync(new object[] { customerId }, cancellation);
+            if (customer == null) throw new NotFoundException("Customer not found");
+
+            if (customer.WorkSpaceId != null)
+            {
+                await _workspaceService.EnsureIsOwnerOrAssistantAsync(customer.WorkSpaceId.Value, actingUserId, cancellation);
+            }
+            else if (customer.CreatedByUserId != actingUserId)
+            {
+                // Not yet assigned to any workspace, so there's no Owner/Assistant to defer to —
+                // only the person who created this customer record can touch it.
+                throw new UnauthorizedAccessException("Only the customer's creator can change its active status before it's assigned to a workspace");
+            }
+
+            customer.IsActive = isActive;
+            customer.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync(cancellation);
+
+            return _mapper.Map<CustomerResponseDTO>(customer);
         }
 
     }

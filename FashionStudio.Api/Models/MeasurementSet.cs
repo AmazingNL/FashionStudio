@@ -22,7 +22,7 @@ namespace FashionStudio.Api.Models
         public int CreatedByUserId { get; set; }
         public User? CreatedByUser { get; set; }
 
-        public string label { get; set; } = string.Empty;
+        public string Label { get; set; } = string.Empty;
         public string Note { get; set; } = string.Empty;
         public Unit Unit { get; set; } = Unit.Cm;
         public DateTime DateTaken { get; set; }

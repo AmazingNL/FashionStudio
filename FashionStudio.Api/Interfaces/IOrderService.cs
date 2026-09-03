@@ -9,5 +9,6 @@ namespace FashionStudio.Api.Interfaces
         Task<PageResultDTO<OrderResponseDTO>> GetAllOrdersAsync(QueryParam queryParam, CancellationToken cancellation);
         Task<OrderResponseDTO> UpdateOrderAsync(int orderId, OrderUpdateDTO request, int actingUserId, CancellationToken cancellation);
         Task<OrderResponseDTO> AssignOrderToUserAsync(int orderId, int assignedToUserId, int actingUserId, CancellationToken cancellation);
+        Task DeleteOrderAsync(int orderId, int actingUserId, CancellationToken cancellation);
     }
 }

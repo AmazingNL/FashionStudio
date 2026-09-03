@@ -14,16 +14,20 @@ namespace FashionStudio.Api.Services
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IWorkSpaceService _workSpaceService;
+        private readonly IOrderImageService _orderImageService;
 
-        public OrderService(AppDbContext context, IMapper mapper)
+        public OrderService(AppDbContext context, IMapper mapper, IWorkSpaceService workSpaceService, IOrderImageService orderImageService)
         {
             _context = context;
             _mapper = mapper;
+            _workSpaceService = workSpaceService;
+            _orderImageService = orderImageService;
         }
 
         public async Task<OrderResponseDTO> CreateOrderAsync(OrderRequestDTO request, int userId, CancellationToken cancellation)
         {
-            await EnsureIsOwnerOrAssistantAsync(request.WorkSpaceId, userId, cancellation);
+            await _workSpaceService.EnsureIsOwnerOrAssistantAsync(request.WorkSpaceId, userId, cancellation);
 
             var customer = await _context.Customers.FindAsync(new object[] { request.CustomerId }, cancellation);
             if (customer == null) throw new NotFoundException("Customer not found");
@@ -32,7 +36,7 @@ namespace FashionStudio.Api.Services
 
             if (request.AssignedToUserId != null)
             {
-                await EnsureIsMemberAsync(request.WorkSpaceId, request.AssignedToUserId.Value, cancellation);
+                await _workSpaceService.EnsureIsMemberAsync(request.WorkSpaceId, request.AssignedToUserId.Value, cancellation);
             }
 
             var order = _mapper.Map<Order>(request);
@@ -67,7 +71,7 @@ namespace FashionStudio.Api.Services
             var order = await _context.Orders.FindAsync(new object[] { orderId }, cancellation);
             if (order == null) throw new NotFoundException("Order not found");
 
-            await EnsureIsMemberAsync(order.WorkSpaceId, actingUserId, cancellation);
+            await _workSpaceService.EnsureIsMemberAsync(order.WorkSpaceId, actingUserId, cancellation);
 
             _mapper.Map(request, order);
             await _context.SaveChangesAsync(cancellation);
@@ -80,8 +84,8 @@ namespace FashionStudio.Api.Services
             var order = await _context.Orders.FindAsync(new object[] { orderId }, cancellation);
             if (order == null) throw new NotFoundException("Order not found");
 
-            await EnsureIsOwnerOrAssistantAsync(order.WorkSpaceId, actingUserId, cancellation);
-            await EnsureIsMemberAsync(order.WorkSpaceId, assignedToUserId, cancellation);
+            await _workSpaceService.EnsureIsOwnerOrAssistantAsync(order.WorkSpaceId, actingUserId, cancellation);
+            await _workSpaceService.EnsureIsMemberAsync(order.WorkSpaceId, assignedToUserId, cancellation);
 
             order.AssignedToUserId = assignedToUserId;
             order.UpdatedAt = DateTime.UtcNow;
@@ -90,21 +94,26 @@ namespace FashionStudio.Api.Services
             return _mapper.Map<OrderResponseDTO>(order);
         }
 
-        // Helper methods
-        private async Task EnsureIsOwnerOrAssistantAsync(int workSpaceId, int userId, CancellationToken cancellation)
+        public async Task DeleteOrderAsync(int orderId, int actingUserId, CancellationToken cancellation)
         {
-            var membership = await _context.WorkSpaceMemberships
-                .FirstOrDefaultAsync(m => m.WorkSpaceId == workSpaceId && m.UserId == userId, cancellation);
-            if (membership == null || (membership.Role != Role.Owner && membership.Role != Role.Assistant))
-                throw new UnauthorizedAccessException("User must be an Owner or Assistant of this workspace");
-        }
+            var order = await _context.Orders.FindAsync(new object[] { orderId }, cancellation);
+            if (order == null) throw new NotFoundException("Order not found");
 
-        private async Task EnsureIsMemberAsync(int workSpaceId, int userId, CancellationToken cancellation)
-        {
-            var membership = await _context.WorkSpaceMemberships
-                .FirstOrDefaultAsync(m => m.WorkSpaceId == workSpaceId && m.UserId == userId, cancellation);
-            if (membership == null)
-                throw new NotFoundException("User is not a member of this workspace");
+            await _workSpaceService.EnsureIsOwnerOrAssistantAsync(order.WorkSpaceId, actingUserId, cancellation);
+
+            // Payments are an immutable ledger (see PaymentService) — deleting an order that
+            // already has payments recorded against it would silently erase that history via
+            // the ON DELETE CASCADE from Orders to Payments, so it's blocked outright.
+            var hasPayments = await _context.Payments.AnyAsync(p => p.OrderId == orderId, cancellation);
+            if (hasPayments)
+                throw new ConflictException("Cannot delete an order that has recorded payments");
+
+            // Fittings/OrderImages cascade-delete at the DB level, but the image *files* on disk
+            // don't — clean those up first or they're orphaned forever.
+            await _orderImageService.DeleteImagesForOrderAsync(orderId, cancellation);
+
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync(cancellation);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace FashionStudio.Api.Models
         [Key]
         public int Id { get; set; }
 
-        public User? Customer { get; set; }
+        public Customer? Customer { get; set; }
         public int CustomerId { get; set; }
 
         public WorkSpace? WorkSpace { get; set; }
@@ -42,6 +42,6 @@ namespace FashionStudio.Api.Models
         public string Notes { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public int Approved { get; set; } = 0; // 0: pending, 1: approved, -1: rejected
+        public FittingOutcome Outcome { get; set; } = FittingOutcome.Pending;
     }
 }

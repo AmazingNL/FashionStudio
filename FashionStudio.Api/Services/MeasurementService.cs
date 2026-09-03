@@ -32,7 +32,7 @@ namespace FashionStudio.Api.Services
                 CustomerId = customer.Id,
                 WorkSpaceId = customer.WorkSpaceId,
                 CreatedByUserId = user.Id,
-                label = request.Label,
+                Label = request.Label,
                 Note = request.Note,
                 Unit = request.Unit,
                 DateTaken = request.DateTaken,

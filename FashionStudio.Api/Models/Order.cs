@@ -29,10 +29,10 @@ namespace FashionStudio.Api.Models
         public OrderStatus Status { get; set; } = OrderStatus.New;
         public decimal QuotedPrice { get; set; }
         public decimal Discount { get; set; }
-        public decimal Currency { get; set; }
+        public CurrencyCode Currency { get; set; } = CurrencyCode.NGN;
         public DateTime DeadlineDate { get; set; }
         public DateTime EventDate { get; set; }
-        public DateTime DeliveredDate { get; set; }
+        public DateTime? DeliveredDate { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

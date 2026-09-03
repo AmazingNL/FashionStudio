@@ -52,6 +52,10 @@ namespace FashionStudio.Api
             builder.Services.AddScoped<ICustomerService, CustomerService>();
             builder.Services.AddScoped<IMeasurementService, MeasurementService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IFittingService, FittingService>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
+            builder.Services.Configure<StorageSettings>(builder.Configuration.GetSection("Storage"));
+            builder.Services.AddScoped<IOrderImageService, OrderImageService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

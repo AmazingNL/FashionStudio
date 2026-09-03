@@ -4,6 +4,7 @@ namespace FashionStudio.Api.DTOs;
 
 public class UserResponseDTO
 {
+    public int Id { get; set; }
     [Searchable]
     public string WorkSpace { get; set; } = string.Empty;
     [Searchable]

@@ -12,7 +12,8 @@ namespace FashionStudio.Api.Controllers
     {
         private readonly IOrderService _orderService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IActivityLogService? activityLogService)
+            : base(activityLogService)
         {
             _orderService = orderService;
         }
@@ -24,6 +25,7 @@ namespace FashionStudio.Api.Controllers
         {
             var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
             var order = await _orderService.CreateOrderAsync(request, userId, cancellationToken);
+            await LogActivityAsync("Order", order.Id, "Created");
             return CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, order);
         }
 
@@ -51,6 +53,7 @@ namespace FashionStudio.Api.Controllers
         {
             var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
             var order = await _orderService.UpdateOrderAsync(id, request, userId, cancellationToken);
+            await LogActivityAsync("Order", id, "Updated");
             return Ok(order);
         }
 
@@ -62,7 +65,17 @@ namespace FashionStudio.Api.Controllers
         {
             var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
             var order = await _orderService.AssignOrderToUserAsync(orderId, assignedToUserId, userId, cancellationToken);
+            await LogActivityAsync("Order", orderId, "AssignedToUser");
             return Ok(order);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(int id, CancellationToken cancellationToken)
+        {
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            await _orderService.DeleteOrderAsync(id, userId, cancellationToken);
+            await LogActivityAsync("Order", id, "Deleted");
+            return NoContent();
         }
     }
 }

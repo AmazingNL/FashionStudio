@@ -61,14 +61,38 @@ namespace FashionStudio.Api.Services
         }
 
         public async Task<bool> IsMemberOfWorkSpaceAsync(
-            string email, 
-            int workSpaceId, 
+            string email,
+            int workSpaceId,
             CancellationToken cancellation)
         {
             var membership = await _context.WorkSpaceMemberships
-                .FirstOrDefaultAsync(m => m.User.Email == email 
+                .FirstOrDefaultAsync(m => m.User.Email == email
                 && m.WorkSpaceId == workSpaceId, cancellation);
             return membership != null;
+        }
+
+        public async Task EnsureIsOwnerOrAssistantAsync(int workSpaceId, int userId, CancellationToken cancellation)
+        {
+            var membership = await _context.WorkSpaceMemberships
+                .FirstOrDefaultAsync(m => m.WorkSpaceId == workSpaceId && m.UserId == userId, cancellation);
+            if (membership == null || (membership.Role != Role.Owner && membership.Role != Role.Assistant))
+                throw new UnauthorizedAccessException("User must be an Owner or Assistant of this workspace");
+        }
+
+        public async Task EnsureIsMemberAsync(int workSpaceId, int userId, CancellationToken cancellation)
+        {
+            var membership = await _context.WorkSpaceMemberships
+                .FirstOrDefaultAsync(m => m.WorkSpaceId == workSpaceId && m.UserId == userId, cancellation);
+            if (membership == null)
+                throw new NotFoundException("User is not a member of this workspace");
+        }
+
+        public async Task EnsureIsOwnerAsync(int workSpaceId, int userId, CancellationToken cancellation)
+        {
+            var membership = await _context.WorkSpaceMemberships
+                .FirstOrDefaultAsync(m => m.WorkSpaceId == workSpaceId && m.UserId == userId, cancellation);
+            if (membership == null || membership.Role != Role.Owner)
+                throw new UnauthorizedAccessException("Only the workspace owner can perform this action");
         }
 
 
@@ -126,6 +150,52 @@ namespace FashionStudio.Api.Services
             _context.WorkSpaces.Remove(workSpace);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<WorkSpaceMemberDTO> UpdateMemberRoleAsync(int workSpaceId, int memberUserId, Role newRole, int actingUserId, CancellationToken cancellation)
+        {
+            await EnsureIsOwnerAsync(workSpaceId, actingUserId, cancellation);
+
+            var membership = await _context.WorkSpaceMemberships
+                .Include(m => m.User)
+                .FirstOrDefaultAsync(m => m.WorkSpaceId == workSpaceId && m.UserId == memberUserId, cancellation);
+            if (membership == null) throw new NotFoundException("Membership not found");
+
+            if (membership.Role == Role.Owner && newRole != Role.Owner)
+            {
+                await EnsureNotLastOwnerAsync(workSpaceId, cancellation);
+            }
+
+            membership.Role = newRole;
+            await _context.SaveChangesAsync(cancellation);
+
+            return _mapper.Map<WorkSpaceMemberDTO>(membership);
+        }
+
+        public async Task RemoveMemberAsync(int workSpaceId, int memberUserId, int actingUserId, CancellationToken cancellation)
+        {
+            await EnsureIsOwnerAsync(workSpaceId, actingUserId, cancellation);
+
+            var membership = await _context.WorkSpaceMemberships
+                .FirstOrDefaultAsync(m => m.WorkSpaceId == workSpaceId && m.UserId == memberUserId, cancellation);
+            if (membership == null) throw new NotFoundException("Membership not found");
+
+            if (membership.Role == Role.Owner)
+            {
+                await EnsureNotLastOwnerAsync(workSpaceId, cancellation);
+            }
+
+            // Removes only the membership row — the underlying User account is never touched.
+            _context.WorkSpaceMemberships.Remove(membership);
+            await _context.SaveChangesAsync(cancellation);
+        }
+
+        private async Task EnsureNotLastOwnerAsync(int workSpaceId, CancellationToken cancellation)
+        {
+            var ownerCount = await _context.WorkSpaceMemberships
+                .CountAsync(m => m.WorkSpaceId == workSpaceId && m.Role == Role.Owner, cancellation);
+            if (ownerCount <= 1)
+                throw new ConflictException("A workspace must always have at least one owner");
         }
     }
 }

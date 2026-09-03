@@ -35,8 +35,8 @@ public class AuthController : BaseController
                 return Unauthorized();
             }
             var token = _tokenService.GenerateToken(user);
-            //var log = await LogActivityAsync("User", user.Id, "Login");
-            return Ok(new 
+            await LogActivityAsync("User", user.Id, "Login");
+            return Ok(new
             { 
                 Token = token,
             });
@@ -54,6 +54,7 @@ public class AuthController : BaseController
     public async Task<IActionResult> Register([FromBody] RegisterRequestDTO request)
     {
         var user = await _userService.RegisterUserAsync(request);
+        await LogActivityAsync("User", user.Id, "Registered");
         return Ok(user);
     }
 }

@@ -17,6 +17,7 @@ namespace FashionStudio.Api.DTOs
         public string SocialHandle { get; set; } = string.Empty;
         public string Birthday { get; set; } = string.Empty;
         public string Notes { get; set; } = string.Empty;
+        public bool IsActive { get; set; }
 
         public int? WorkSpaceId { get; set; }
         public DateTime CreatedAt { get; set; }

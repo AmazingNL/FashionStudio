@@ -11,6 +11,8 @@ namespace FashionStudio.Api.Interfaces
         Task<CustomerResponseDTO> GetCustomerByIdAsync(int customerId);
         Task<CustomerResponseDTO> AssignCustomerToWorkSpaceAsync(int customerId, int workSpaceId, int actingUserId, CancellationToken cancellation);
         Task<PageResultDTO<CustomerResponseDTO>> GetAllCustomersAsync(QueryParam queryParam, CancellationToken cancellation);
+        Task<CustomerResponseDTO> DeactivateCustomerAsync(int customerId, int actingUserId, CancellationToken cancellation);
+        Task<CustomerResponseDTO> ReactivateCustomerAsync(int customerId, int actingUserId, CancellationToken cancellation);
 
     }
 }

@@ -89,6 +89,9 @@ namespace FashionStudio.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("text");
@@ -128,9 +131,6 @@ namespace FashionStudio.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Approved")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -148,6 +148,9 @@ namespace FashionStudio.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Outcome")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -262,6 +265,10 @@ namespace FashionStudio.Api.Migrations
                     b.Property<DateTime>("DateTaken")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Note")
                         .IsRequired()
                         .HasColumnType("text");
@@ -274,10 +281,6 @@ namespace FashionStudio.Api.Migrations
 
                     b.Property<int?>("WorkSpaceId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("label")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -307,8 +310,8 @@ namespace FashionStudio.Api.Migrations
                     b.Property<int>("CreatedByUserId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Currency")
-                        .HasColumnType("numeric");
+                    b.Property<int>("Currency")
+                        .HasColumnType("integer");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
@@ -366,16 +369,23 @@ namespace FashionStudio.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("StoredFileName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -408,6 +418,9 @@ namespace FashionStudio.Api.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CreatedByUserId")
                         .HasColumnType("integer");
@@ -633,7 +646,7 @@ namespace FashionStudio.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FashionStudio.Api.Models.User", "Customer")
+                    b.HasOne("FashionStudio.Api.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)

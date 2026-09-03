@@ -19,7 +19,7 @@ namespace FashionStudio.Api.DTOs
         public OrderStatus Status { get; set; }
         public decimal QuotedPrice { get; set; }
         public decimal Discount { get; set; }
-        public decimal Currency { get; set; }
+        public CurrencyCode Currency { get; set; }
         public DateTime DeadlineDate { get; set; }
         public DateTime EventDate { get; set; }
         public DateTime? DeliveredDate { get; set; }

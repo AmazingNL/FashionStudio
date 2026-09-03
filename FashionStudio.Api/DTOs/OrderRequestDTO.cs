@@ -1,3 +1,5 @@
+using FashionStudio.Api.Models;
+
 namespace FashionStudio.Api.DTOs
 {
     public class OrderRequestDTO
@@ -9,7 +11,7 @@ namespace FashionStudio.Api.DTOs
         public string Description { get; set; } = string.Empty;
         public decimal QuotedPrice { get; set; }
         public decimal Discount { get; set; }
-        public decimal Currency { get; set; }
+        public CurrencyCode Currency { get; set; } = CurrencyCode.NGN;
         public DateTime DeadlineDate { get; set; }
         public DateTime EventDate { get; set; }
     }

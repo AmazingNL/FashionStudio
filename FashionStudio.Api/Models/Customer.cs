@@ -24,6 +24,7 @@ namespace FashionStudio.Api.Models
         public string SocialHandle { get; set; } = string.Empty;
         public string Birthday { get; set; } = string.Empty;
         public string Notes { get; set; } = string.Empty;
+        public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

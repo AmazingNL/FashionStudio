@@ -12,7 +12,8 @@ namespace FashionStudio.Api.Controllers
     {
         private readonly IMeasurementService _measurementService;
 
-        public MeasurementController(IMeasurementService measurementService)
+        public MeasurementController(IMeasurementService measurementService, IActivityLogService? activityLogService)
+            : base(activityLogService)
         {
             _measurementService = measurementService;
         }
@@ -24,6 +25,7 @@ namespace FashionStudio.Api.Controllers
         {
             var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
             var measurement = await _measurementService.CreateMeasurementAsync(request, userId, cancellationToken);
+            await LogActivityAsync("MeasurementSet", measurement.Id, "Created");
             return Ok(measurement);
         }
     }

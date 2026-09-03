@@ -31,9 +31,11 @@ namespace FashionStudio.Api.Models
         public WorkSpace? WorkSpace { get; set; }
         public int WorkSpaceId { get; set; }
 
-        public string ImageUrl { get; set; } = string.Empty;
+        public string StoredFileName { get; set; } = string.Empty;
+        public string ContentType { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
 
     }
 }

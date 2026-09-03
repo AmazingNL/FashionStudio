@@ -15,6 +15,7 @@ namespace FashionStudio.Api.Exceptions
             {
                 NotFoundException => (StatusCodes.Status404NotFound, exception.Message),
                 ConflictException => (StatusCodes.Status409Conflict, exception.Message),
+                ValidationException => (StatusCodes.Status400BadRequest, exception.Message),
                 UnauthorizedAccessException => (StatusCodes.Status403Forbidden, exception.Message),
                 _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred."),
             };

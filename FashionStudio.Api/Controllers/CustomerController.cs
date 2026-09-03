@@ -12,7 +12,8 @@ namespace FashionStudio.Api.Controllers
     {
         private readonly ICustomerService _customerService;
 
-        public CustomerController (ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, IActivityLogService? activityLogService)
+            : base(activityLogService)
         {
             _customerService = customerService;
         }
@@ -24,6 +25,7 @@ namespace FashionStudio.Api.Controllers
         {
             var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
             var customer = await _customerService.CreateCustomerAsync(customerRequest, userId, cancellationToken);
+            await LogActivityAsync("Customer", customer.Id, "Created");
             return Ok(customer);
         }
 
@@ -35,6 +37,7 @@ namespace FashionStudio.Api.Controllers
         {
             var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
             var customer = await _customerService.AssignCustomerToWorkSpaceAsync(customerId, workSpaceId, userId, cancellationToken);
+            await LogActivityAsync("Customer", customerId, "AssignedToWorkSpace");
             return Ok(customer);
         }
 
@@ -45,6 +48,24 @@ namespace FashionStudio.Api.Controllers
         {
             var customers = await _customerService.GetAllCustomersAsync(queryParam, cancellationToken);
             return Ok(customers);
+        }
+
+        [HttpPatch("{customerId}/deactivate")]
+        public async Task<IActionResult> DeactivateCustomer(int customerId, CancellationToken cancellationToken)
+        {
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var customer = await _customerService.DeactivateCustomerAsync(customerId, userId, cancellationToken);
+            await LogActivityAsync("Customer", customerId, "Deactivated");
+            return Ok(customer);
+        }
+
+        [HttpPatch("{customerId}/reactivate")]
+        public async Task<IActionResult> ReactivateCustomer(int customerId, CancellationToken cancellationToken)
+        {
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var customer = await _customerService.ReactivateCustomerAsync(customerId, userId, cancellationToken);
+            await LogActivityAsync("Customer", customerId, "Reactivated");
+            return Ok(customer);
         }
 
     }
