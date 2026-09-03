@@ -41,12 +41,21 @@ namespace FashionStudio.Api.Controllers
             return Ok(customer);
         }
 
+        [HttpGet("{customerId}")]
+        public async Task<IActionResult> GetCustomerById(int customerId, CancellationToken cancellationToken)
+        {
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var customer = await _customerService.GetCustomerByIdAsync(customerId, userId, cancellationToken);
+            return Ok(customer);
+        }
+
         [HttpGet("list")]
         public async Task<IActionResult> GetAllCustomers(
             [FromQuery] QueryParam queryParam,
             CancellationToken cancellationToken)
         {
-            var customers = await _customerService.GetAllCustomersAsync(queryParam, cancellationToken);
+            var userId = GetCurrentUserId() ?? throw new InvalidOperationException("User must be logged in");
+            var customers = await _customerService.GetAllCustomersAsync(queryParam, userId, cancellationToken);
             return Ok(customers);
         }
 

@@ -168,9 +168,9 @@ namespace FashionStudio.Api.Tests
     public class NoOpOrderImageService : Interfaces.IOrderImageService
     {
         public Task<OrderImageResponseDTO> UploadImageAsync(OrderImageUploadDTO request, int userId, CancellationToken cancellation) => throw new NotImplementedException();
-        public Task<OrderImageResponseDTO> GetImageByIdAsync(int imageId) => throw new NotImplementedException();
-        public Task<(Stream Stream, string ContentType, string FileName)> GetImageFileAsync(int imageId, CancellationToken cancellation) => throw new NotImplementedException();
-        public Task<PageResultDTO<OrderImageResponseDTO>> GetAllImagesAsync(QueryParam queryParam, CancellationToken cancellation) => throw new NotImplementedException();
+        public Task<OrderImageResponseDTO> GetImageByIdAsync(int imageId, int actingUserId, CancellationToken cancellation) => throw new NotImplementedException();
+        public Task<(Stream Stream, string ContentType, string FileName)> GetImageFileAsync(int imageId, int actingUserId, CancellationToken cancellation) => throw new NotImplementedException();
+        public Task<PageResultDTO<OrderImageResponseDTO>> GetAllImagesAsync(QueryParam queryParam, int actingUserId, CancellationToken cancellation) => throw new NotImplementedException();
         public Task DeleteImageAsync(int imageId, int actingUserId, CancellationToken cancellation) => throw new NotImplementedException();
         public Task DeleteImagesForOrderAsync(int orderId, CancellationToken cancellation) => Task.CompletedTask;
     }

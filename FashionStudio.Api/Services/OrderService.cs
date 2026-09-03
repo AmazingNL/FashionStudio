@@ -48,17 +48,24 @@ namespace FashionStudio.Api.Services
             return _mapper.Map<OrderResponseDTO>(order);
         }
 
-        public async Task<OrderResponseDTO> GetOrderByIdAsync(int orderId)
+        public async Task<OrderResponseDTO> GetOrderByIdAsync(int orderId, int actingUserId, CancellationToken cancellation)
         {
-            var order = await _context.Orders.FindAsync(orderId);
+            var order = await _context.Orders.FindAsync(new object[] { orderId }, cancellation);
             if (order == null) throw new NotFoundException("Order not found");
+
+            await _workSpaceService.EnsureIsMemberAsync(order.WorkSpaceId, actingUserId, cancellation);
 
             return _mapper.Map<OrderResponseDTO>(order);
         }
 
-        public async Task<PageResultDTO<OrderResponseDTO>> GetAllOrdersAsync(QueryParam queryParam, CancellationToken cancellation)
+        public async Task<PageResultDTO<OrderResponseDTO>> GetAllOrdersAsync(QueryParam queryParam, int actingUserId, CancellationToken cancellation)
         {
+            var memberWorkSpaceIds = _context.WorkSpaceMemberships
+                .Where(m => m.UserId == actingUserId)
+                .Select(m => m.WorkSpaceId);
+
             var pageDto = await _context.Orders
+                .Where(o => memberWorkSpaceIds.Contains(o.WorkSpaceId))
                 .ProjectToType<OrderResponseDTO>()
                 .SearchByAttributes(queryParam.SearchTerm)
                 .OrderByProperty(queryParam.SortBy, queryParam.IsDescending)

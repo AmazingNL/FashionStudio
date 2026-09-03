@@ -50,17 +50,24 @@ namespace FashionStudio.Api.Services
             return _mapper.Map<PaymentResponseDTO>(payment);
         }
 
-        public async Task<PaymentResponseDTO> GetPaymentByIdAsync(int paymentId)
+        public async Task<PaymentResponseDTO> GetPaymentByIdAsync(int paymentId, int actingUserId, CancellationToken cancellation)
         {
-            var payment = await _context.Payments.FindAsync(paymentId);
+            var payment = await _context.Payments.FindAsync(new object[] { paymentId }, cancellation);
             if (payment == null) throw new NotFoundException("Payment not found");
+
+            await _workSpaceService.EnsureIsMemberAsync(payment.WorkSpaceId, actingUserId, cancellation);
 
             return _mapper.Map<PaymentResponseDTO>(payment);
         }
 
-        public async Task<PageResultDTO<PaymentResponseDTO>> GetAllPaymentsAsync(QueryParam queryParam, CancellationToken cancellation)
+        public async Task<PageResultDTO<PaymentResponseDTO>> GetAllPaymentsAsync(QueryParam queryParam, int actingUserId, CancellationToken cancellation)
         {
+            var memberWorkSpaceIds = _context.WorkSpaceMemberships
+                .Where(m => m.UserId == actingUserId)
+                .Select(m => m.WorkSpaceId);
+
             var pageDto = await _context.Payments
+                .Where(p => memberWorkSpaceIds.Contains(p.WorkSpaceId))
                 .ProjectToType<PaymentResponseDTO>()
                 .SearchByAttributes(queryParam.SearchTerm)
                 .OrderByProperty(queryParam.SortBy, queryParam.IsDescending)

@@ -41,17 +41,24 @@ namespace FashionStudio.Api.Services
             return _mapper.Map<FittingResponseDTO>(fitting);
         }
 
-        public async Task<FittingResponseDTO> GetFittingByIdAsync(int fittingId)
+        public async Task<FittingResponseDTO> GetFittingByIdAsync(int fittingId, int actingUserId, CancellationToken cancellation)
         {
-            var fitting = await _context.Fittings.FindAsync(fittingId);
+            var fitting = await _context.Fittings.FindAsync(new object[] { fittingId }, cancellation);
             if (fitting == null) throw new NotFoundException("Fitting not found");
+
+            await _workSpaceService.EnsureIsMemberAsync(fitting.WorkSpaceId, actingUserId, cancellation);
 
             return _mapper.Map<FittingResponseDTO>(fitting);
         }
 
-        public async Task<PageResultDTO<FittingResponseDTO>> GetAllFittingsAsync(QueryParam queryParam, CancellationToken cancellation)
+        public async Task<PageResultDTO<FittingResponseDTO>> GetAllFittingsAsync(QueryParam queryParam, int actingUserId, CancellationToken cancellation)
         {
+            var memberWorkSpaceIds = _context.WorkSpaceMemberships
+                .Where(m => m.UserId == actingUserId)
+                .Select(m => m.WorkSpaceId);
+
             var pageDto = await _context.Fittings
+                .Where(f => memberWorkSpaceIds.Contains(f.WorkSpaceId))
                 .ProjectToType<FittingResponseDTO>()
                 .SearchByAttributes(queryParam.SearchTerm)
                 .OrderByProperty(queryParam.SortBy, queryParam.IsDescending)

@@ -178,5 +178,75 @@ namespace FashionStudio.Api.Tests
             var deactivated = await service.DeactivateCustomerAsync(customer.Id, creator.Id, CancellationToken.None);
             Assert.False(deactivated.IsActive);
         }
+
+        [Fact]
+        public async Task GetCustomerByIdAsync_AssignedCustomer_NonMemberOfWorkSpace_Throws()
+        {
+            using var context = TestHelpers.CreateContext();
+            var owner = new User { FirstName = "Owner", LastName = "One", Email = "owner@test.com", UserName = "owner" };
+            var outsider = new User { FirstName = "Out", LastName = "Sider", Email = "outsider@test.com", UserName = "outsider" };
+            var workSpace = new WorkSpace { Name = "WS" };
+            context.Users.AddRange(owner, outsider);
+            context.WorkSpaces.Add(workSpace);
+            await context.SaveChangesAsync();
+            context.WorkSpaceMemberships.Add(new WorkSpaceMembership { UserId = owner.Id, WorkSpaceId = workSpace.Id, Role = Role.Owner });
+            await context.SaveChangesAsync();
+            var service = CreateService(context);
+            var customer = await service.CreateCustomerAsync(
+                new CustomerRequestDTO { FullName = "Amara Okafor", Phone = "555-0001" }, owner.Id, CancellationToken.None);
+            await service.AssignCustomerToWorkSpaceAsync(customer.Id, workSpace.Id, owner.Id, CancellationToken.None);
+
+            await Assert.ThrowsAsync<NotFoundException>(() =>
+                service.GetCustomerByIdAsync(customer.Id, outsider.Id, CancellationToken.None));
+        }
+
+        [Fact]
+        public async Task GetCustomerByIdAsync_UnassignedCustomer_OnlyCreatorCanRead()
+        {
+            using var context = TestHelpers.CreateContext();
+            var creator = new User { FirstName = "Owner", LastName = "One", Email = "owner@test.com", UserName = "owner" };
+            var someoneElse = new User { FirstName = "Other", LastName = "One", Email = "other@test.com", UserName = "other" };
+            context.Users.AddRange(creator, someoneElse);
+            await context.SaveChangesAsync();
+            var service = CreateService(context);
+            var customer = await service.CreateCustomerAsync(
+                new CustomerRequestDTO { FullName = "Amara Okafor", Phone = "555-0001" }, creator.Id, CancellationToken.None);
+
+            await Assert.ThrowsAsync<NotFoundException>(() =>
+                service.GetCustomerByIdAsync(customer.Id, someoneElse.Id, CancellationToken.None));
+
+            var result = await service.GetCustomerByIdAsync(customer.Id, creator.Id, CancellationToken.None);
+            Assert.Equal(customer.Id, result.Id);
+        }
+
+        [Fact]
+        public async Task GetAllCustomersAsync_OnlyReturnsVisibleCustomers()
+        {
+            using var context = TestHelpers.CreateContext();
+            var owner = new User { FirstName = "Owner", LastName = "One", Email = "owner@test.com", UserName = "owner" };
+            var outsider = new User { FirstName = "Out", LastName = "Sider", Email = "outsider@test.com", UserName = "outsider" };
+            var workSpace = new WorkSpace { Name = "WS" };
+            context.Users.AddRange(owner, outsider);
+            context.WorkSpaces.Add(workSpace);
+            await context.SaveChangesAsync();
+            context.WorkSpaceMemberships.Add(new WorkSpaceMembership { UserId = owner.Id, WorkSpaceId = workSpace.Id, Role = Role.Owner });
+            await context.SaveChangesAsync();
+            var service = CreateService(context);
+
+            // Assigned to owner's workspace — visible to owner, not to outsider.
+            var assigned = await service.CreateCustomerAsync(
+                new CustomerRequestDTO { FullName = "Assigned Customer", Phone = "555-0001" }, owner.Id, CancellationToken.None);
+            await service.AssignCustomerToWorkSpaceAsync(assigned.Id, workSpace.Id, owner.Id, CancellationToken.None);
+
+            // Created by outsider, never assigned anywhere — visible only to outsider.
+            await service.CreateCustomerAsync(
+                new CustomerRequestDTO { FullName = "Outsider's Unassigned Customer", Phone = "555-0002" }, outsider.Id, CancellationToken.None);
+
+            var ownerPage = await service.GetAllCustomersAsync(new QueryParam(), owner.Id, CancellationToken.None);
+            var outsiderPage = await service.GetAllCustomersAsync(new QueryParam(), outsider.Id, CancellationToken.None);
+
+            Assert.Equal("Assigned Customer", Assert.Single(ownerPage.Items!).FullName);
+            Assert.Equal("Outsider's Unassigned Customer", Assert.Single(outsiderPage.Items!).FullName);
+        }
     }
 }
