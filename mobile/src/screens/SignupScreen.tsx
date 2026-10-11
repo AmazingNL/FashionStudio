@@ -4,10 +4,6 @@ import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
 
 export default function SignupScreen() {
 
-
-
-
-
     return (
         <>
             <View style={styles.container}>
@@ -20,6 +16,7 @@ export default function SignupScreen() {
                 />
             </View>
         </>
+        
     )
 }
 
