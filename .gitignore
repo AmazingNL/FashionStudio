@@ -1,0 +1,20 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# Visual Studio
+.vs/
+
+# Secrets and local config
+.env
+
+# Logs / traces
+*.log
+*.speedscope.json
+*.nettrace
+
+# OS
+.DS_Store
+Thumbs.db

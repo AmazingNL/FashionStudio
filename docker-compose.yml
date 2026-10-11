@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+    postgres:
+        image: postgres:16
+        container_name: fashion-postgres
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres123
+            POSTGRES_DB: fashionstudio
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: fashion-pgadmin
+        restart: always
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@local.com
+            PGADMIN_DEFAULT_PASSWORD: postgres123
+        ports:
+            - "5050:80"
+        depends_on:
+            - postgres
+
+    api:
+        build:
+            context: ./backend/FashionStudio
+            dockerfile: FashionStudio.Api/Dockerfile
+        container_name: fashion-api
+        restart: always
+        # Reuses the same .env the API loads for local `dotnet run` (Jwt__Key, Smtp__*, etc.)
+        env_file:
+            - ./backend/FashionStudio/FashionStudio.Api/.env
+        environment:
+            # Overrides the .env value: inside the compose network "localhost" would mean
+            # the api container itself, not postgres, so this must point at the service name.
+            ConnectionStrings__Default: "Host=postgres;Port=5432;Database=fashionstudio;Username=postgres;Password=postgres123"
+        ports:
+            - "8080:8080"
+        depends_on:
+            - postgres
+        volumes:
+            - api_uploads:/app/App_Data
+
+volumes:
+    postgres_data:
+    api_uploads:
