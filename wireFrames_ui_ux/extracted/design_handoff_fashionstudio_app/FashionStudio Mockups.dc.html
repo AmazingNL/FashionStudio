@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="./styles.css">
+<script src="_ds/organic-7f2d4166-24df-4db3-8767-5f9d41828fc9/_ds_bundle.js"></script>
+<style>body{margin:0;background:#efe2cb;font-family:var(--font-body),system-ui,sans-serif}a{color:var(--color-accent-700)}a:hover{color:var(--color-accent-600)}.dv-turn{padding:40px 44px 32px;scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#201e1d;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#201e1d}.dv-note{margin:0 0 24px;font:12px/1.5 system-ui,sans-serif;color:rgba(32,30,29,.6);max-width:720px}.dv-opts{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(32,30,29,.1);color:#201e1d;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.4 system-ui,sans-serif;color:rgba(32,30,29,.6);max-width:400px}.dv-opt:target .dv-oid{background:var(--color-accent);color:#fff}.dv-next{margin:26px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(32,30,29,.55)}.dv-group{width:100%;margin:26px 0 2px;font:600 11px/1 system-ui,sans-serif;letter-spacing:1.6px;text-transform:uppercase;color:rgba(32,30,29,.45)}</style>
+</helmet>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">FashionStudio — hi-fi mockups from your wireframe, in the Organic system</span></div>
+<p class="dv-note">Three Home riffs (layout, navigation, boldness, copy tone), then the rest of the app in the <a class="dv-oid" href="#1a">1a</a> direction. Sketch thumbnails are placeholders — drop in real photos anytime.</p>
+<div class="dv-opts">
+<div class="dv-group">Home — three riffs</div>
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Faithful to the wireframe · tab bar + FAB · warm copy</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:56px 20px 0;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-family:var(--font-heading);font-size:26px">FashionStudio</div>
+<div style="width:42px;height:42px;border-radius:999px;background:var(--color-accent-200);color:var(--color-accent-800);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">AG</div>
+</div>
+<div style="font-size:13.5px;color:var(--color-neutral-600);margin-top:-8px">Tuesday, Aug 25 — two fittings today</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Today</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--color-divider)">
+<div style="font-weight:800;font-size:15px;width:44px">10:00</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px"><div style="font-weight:700;font-size:15px">Fitting — Adaeze O.</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Order #041 · second fitting</div></div>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--color-divider)">
+<div style="font-weight:800;font-size:15px;width:44px">14:30</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px"><div style="font-weight:700;font-size:15px">Fitting — Chidi N.</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Order #043 · first fitting</div></div>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:14px 18px">
+<div style="width:44px"><span style="font-size:10.5px;font-weight:800;letter-spacing:.8px;padding:4px 8px;border-radius:999px;background:var(--color-accent-200);color:var(--color-accent-800)">DUE</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px"><div style="font-weight:700;font-size:15px">Order #039 — wrap dress</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Ready for pickup by Thu</div></div>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Orders in progress</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="font-family:var(--font-heading);font-size:24px">4</div><div style="font-size:12px;color:var(--color-neutral-600)">Sewing</div></div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="font-family:var(--font-heading);font-size:24px">2</div><div style="font-size:12px;color:var(--color-neutral-600)">Fitting</div></div>
+<div style="background:var(--color-accent-200);border:1.5px solid var(--color-accent-300);border-radius:var(--radius-md);padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="font-family:var(--font-heading);font-size:24px;color:var(--color-accent-800)">1</div><div style="font-size:12px;color:var(--color-accent-800)">Due soon</div></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Recent sketches</div><a href="#1d" style="font-size:13px;font-weight:700;color:var(--color-accent-700);text-decoration:none">See all</a></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+<div style="display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:3/4;background:var(--color-surface);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-size:11.5px;color:var(--color-neutral-700)">Look 07 — wrap</div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:3/4;background:var(--color-surface);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-size:11.5px;color:var(--color-neutral-700)">Look 08 — two-piece</div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:3/4;background:var(--color-surface);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-size:11.5px;color:var(--color-neutral-700)">Look 09 — gown</div></div>
+</div>
+</div>
+<div style="display:flex;gap:10px">
+<div style="flex:1;background:var(--color-accent);color:#fff;border-radius:999px;padding:14px 0;text-align:center;font-weight:700;font-size:15px;box-shadow:var(--shadow-sm)">+ New sketch</div>
+<div style="flex:1;border:2px solid var(--color-accent);color:var(--color-accent-700);border-radius:999px;padding:12px 0;text-align:center;font-weight:700;font-size:15px">+ New order</div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-end;justify-content:space-around;padding:10px 14px 30px;background:var(--color-neutral-100);border-top:1.5px solid var(--color-divider)">
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-accent-700);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"></path></svg><div style="font-size:10.5px;font-weight:700">Home</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg><div style="font-size:10.5px;font-weight:600">Studio</div></div>
+<div style="width:54px;height:54px;border-radius:999px;background:var(--color-accent);display:flex;align-items:center;justify-content:center;margin-top:-30px;box-shadow:var(--shadow-md)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.75" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><div style="font-size:10.5px;font-weight:600">Clients</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="4"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg><div style="font-size:10.5px;font-weight:600">Schedule</div></div>
+</div>
+</div>
+</x-import></div>
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Agenda-first · denser · pill nav on top, no tab bar · formal copy</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:70px 20px 0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-family:var(--font-heading);font-size:19px">FashionStudio <span style="color:var(--color-accent)">AG</span></div>
+<div style="width:38px;height:38px;border-radius:999px;background:var(--color-accent-2-200);color:var(--color-accent-2-800);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">AG</div>
+</div>
+<div style="display:flex;gap:8px">
+<div style="padding:9px 18px;border-radius:999px;background:var(--color-accent);color:#fff;font-weight:700;font-size:13.5px">Home</div>
+<div style="padding:9px 18px;border-radius:999px;border:1.5px solid var(--color-divider);color:var(--color-neutral-700);font-weight:600;font-size:13.5px">Studio</div>
+<div style="padding:9px 18px;border-radius:999px;border:1.5px solid var(--color-divider);color:var(--color-neutral-700);font-weight:600;font-size:13.5px">Clients</div>
+<div style="padding:9px 18px;border-radius:999px;border:1.5px solid var(--color-divider);color:var(--color-neutral-700);font-weight:600;font-size:13.5px">Schedule</div>
+</div>
+<div style="font-family:var(--font-heading);font-size:26px;margin-top:4px">Tuesday, 25 August</div>
+<div style="display:flex;gap:8px;margin-top:-6px">
+<div style="padding:6px 12px;border-radius:999px;background:var(--color-neutral-200);font-size:12.5px;font-weight:700">4 sewing</div>
+<div style="padding:6px 12px;border-radius:999px;background:var(--color-accent-2-200);color:var(--color-accent-2-800);font-size:12.5px;font-weight:700">2 fitting</div>
+<div style="padding:6px 12px;border-radius:999px;background:var(--color-accent-200);color:var(--color-accent-800);font-size:12.5px;font-weight:700">1 due soon</div>
+</div>
+<div style="display:flex;flex-direction:column">
+<div style="display:flex;gap:14px">
+<div style="display:flex;flex-direction:column;align-items:center;width:14px"><div style="width:12px;height:12px;border-radius:999px;background:var(--color-accent);margin-top:6px"></div><div style="flex:1;width:2px;background:var(--color-divider)"></div></div>
+<div style="flex:1;padding-bottom:16px"><div style="font-size:12.5px;font-weight:800;color:var(--color-accent-700)">10:00</div><div style="font-weight:700;font-size:15px">Fitting — Adaeze Okafor</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Order #041 · second fitting · garments prepared</div></div>
+</div>
+<div style="display:flex;gap:14px">
+<div style="display:flex;flex-direction:column;align-items:center;width:14px"><div style="width:12px;height:12px;border-radius:999px;border:2.5px solid var(--color-accent);background:var(--color-bg);margin-top:6px"></div><div style="flex:1;width:2px;background:var(--color-divider)"></div></div>
+<div style="flex:1;padding-bottom:16px"><div style="font-size:12.5px;font-weight:800;color:var(--color-accent-700)">14:30</div><div style="font-weight:700;font-size:15px">Fitting — Chidi Nwosu</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Order #043 · first fitting</div></div>
+</div>
+<div style="display:flex;gap:14px">
+<div style="display:flex;flex-direction:column;align-items:center;width:14px"><div style="width:12px;height:12px;border-radius:999px;background:var(--color-accent-2-500);margin-top:6px"></div></div>
+<div style="flex:1"><div style="font-size:12.5px;font-weight:800;color:var(--color-accent-2-700)">Thu 27</div><div style="font-weight:700;font-size:15px">Order #039 — wrap dress due</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Completion required before pickup</div></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Recent sketches</div><span style="font-size:13px;font-weight:700;color:var(--color-accent-700)">View all</span></div>
+<div style="display:flex;gap:10px">
+<div style="width:96px;display:flex;flex-direction:column;gap:5px"><div style="height:110px;background:var(--color-surface);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-size:11px;color:var(--color-neutral-700)">Look 07</div></div>
+<div style="width:96px;display:flex;flex-direction:column;gap:5px"><div style="height:110px;background:var(--color-surface);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-size:11px;color:var(--color-neutral-700)">Look 08</div></div>
+<div style="width:96px;display:flex;flex-direction:column;gap:5px"><div style="height:110px;background:var(--color-surface);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-size:11px;color:var(--color-neutral-700)">Look 09</div></div>
+</div>
+</div>
+<div style="background:var(--color-accent);color:#fff;border-radius:999px;padding:15px 0;text-align:center;font-weight:700;font-size:15px;box-shadow:var(--shadow-sm)">Create new order</div>
+</div>
+<div style="height:34px"></div>
+</div>
+</x-import></div>
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Bold Organic · big greeting, stat circles, sage second voice · playful copy</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:72px 22px 0;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:6px"><div style="font-family:var(--font-heading);font-size:33px;line-height:1.1">Good morning,<br>Amara.</div><div style="font-size:14px;color:var(--color-neutral-700)">Two fittings today — and Look 09 wants<br>to be finished by Thursday.</div></div>
+<div style="width:46px;height:46px;border-radius:999px;background:var(--color-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">AG</div>
+</div>
+<div style="background:var(--color-accent-2-200);border-radius:var(--radius-lg);padding:20px;position:relative;overflow:hidden">
+<div style="position:absolute;right:-34px;top:-34px;width:130px;height:130px;border-radius:999px;background:var(--color-accent-2-300)"></div>
+<div style="position:relative;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-accent-2-800)">Next up · 10:00</div>
+<div style="font-family:var(--font-heading);font-size:22px;color:var(--color-accent-2-900)">Adaeze’s second fitting</div>
+<div style="font-size:13.5px;color:var(--color-accent-2-800)">Wrap dress, order #041. She loved the sleeves last time.</div>
+<div style="align-self:flex-start;background:var(--color-accent-2-700);color:#fff;border-radius:999px;padding:10px 20px;font-weight:700;font-size:13.5px">Prep notes</div>
+</div>
+</div>
+<div style="display:flex;gap:12px;justify-content:center">
+<div style="width:92px;height:92px;border-radius:999px;background:var(--color-accent-200);display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-family:var(--font-heading);font-size:28px;color:var(--color-accent-800)">4</div><div style="font-size:11.5px;font-weight:700;color:var(--color-accent-800)">sewing</div></div>
+<div style="width:92px;height:92px;border-radius:999px;background:var(--color-accent-2-200);display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:18px"><div style="font-family:var(--font-heading);font-size:28px;color:var(--color-accent-2-800)">2</div><div style="font-size:11.5px;font-weight:700;color:var(--color-accent-2-800)">fitting</div></div>
+<div style="width:92px;height:92px;border-radius:999px;background:var(--color-accent);display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-family:var(--font-heading);font-size:28px;color:#fff">1</div><div style="font-size:11.5px;font-weight:700;color:var(--color-accent-100)">due soon</div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-family:var(--font-heading);font-size:18px">Fresh from the sketchbook</div><span style="font-size:13px;font-weight:700;color:var(--color-accent-700)">See all</span></div>
+<div style="display:flex;align-items:center">
+<div style="width:104px;height:104px;border-radius:999px;background:var(--color-surface);border:3px solid var(--color-bg);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div>
+<div style="width:104px;height:104px;border-radius:999px;background:var(--color-accent-2-100);border:3px solid var(--color-bg);display:flex;align-items:center;justify-content:center;margin-left:-22px;box-shadow:var(--shadow-sm)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div>
+<div style="width:104px;height:104px;border-radius:999px;background:var(--color-accent-100);border:3px solid var(--color-bg);display:flex;align-items:center;justify-content:center;margin-left:-22px;box-shadow:var(--shadow-sm)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div>
+<div style="margin-left:14px;font-size:12.5px;color:var(--color-neutral-600);line-height:1.4">Looks 07–09<br>wrap · two-piece · gown</div>
+</div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-end;justify-content:space-around;padding:10px 14px 30px;background:var(--color-neutral-100);border-top:1.5px solid var(--color-divider)">
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-accent-700);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"></path></svg><div style="font-size:10.5px;font-weight:700">Home</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg><div style="font-size:10.5px;font-weight:600">Studio</div></div>
+<div style="width:54px;height:54px;border-radius:999px;background:var(--color-accent);display:flex;align-items:center;justify-content:center;margin-top:-30px;box-shadow:var(--shadow-md)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.75" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><div style="font-size:10.5px;font-weight:600">Clients</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="4"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg><div style="font-size:10.5px;font-weight:600">Schedule</div></div>
+</div>
+</div>
+</x-import></div>
+<div class="dv-group">The rest of the app — in the 1a direction</div>
+<div class="dv-opt" id="1d"><div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Studio — sketch gallery with filters</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:72px 20px 0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-family:var(--font-heading);font-size:28px">Studio</div>
+<div style="width:40px;height:40px;border-radius:999px;border:1.5px solid var(--color-divider);background:var(--color-neutral-100);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-700)" stroke-width="2.75" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></div>
+</div>
+<div style="display:flex;gap:8px">
+<div style="padding:8px 16px;border-radius:999px;background:var(--color-accent);color:#fff;font-weight:700;font-size:13px">All · 12</div>
+<div style="padding:8px 16px;border-radius:999px;border:1.5px solid var(--color-divider);color:var(--color-neutral-700);font-weight:600;font-size:13px">Wraps</div>
+<div style="padding:8px 16px;border-radius:999px;border:1.5px solid var(--color-divider);color:var(--color-neutral-700);font-weight:600;font-size:13px">Two-piece</div>
+<div style="padding:8px 16px;border-radius:999px;border:1.5px solid var(--color-divider);color:var(--color-neutral-700);font-weight:600;font-size:13px">Gowns</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div style="display:flex;flex-direction:column;gap:7px"><div style="aspect-ratio:3/4;background:var(--color-surface);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-weight:700;font-size:14px">Look 09 — gown</div><div style="font-size:12px;color:var(--color-neutral-600)">Sketched Sun · not in an order yet</div></div>
+<div style="display:flex;flex-direction:column;gap:7px"><div style="aspect-ratio:3/4;background:var(--color-accent-2-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-weight:700;font-size:14px">Look 08 — two-piece</div><div style="display:flex"><span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--color-accent-2-200);color:var(--color-accent-2-800)">Order #043</span></div></div>
+<div style="display:flex;flex-direction:column;gap:7px"><div style="aspect-ratio:3/4;background:var(--color-accent-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-weight:700;font-size:14px">Look 07 — wrap</div><div style="display:flex"><span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--color-accent-200);color:var(--color-accent-800)">Order #041</span></div></div>
+<div style="display:flex;flex-direction:column;gap:7px"><div style="aspect-ratio:3/4;background:var(--color-surface);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div><div style="font-weight:700;font-size:14px">Look 06 — shift</div><div style="font-size:12px;color:var(--color-neutral-600)">Sketched 12 Aug</div></div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-end;justify-content:space-around;padding:10px 14px 30px;background:var(--color-neutral-100);border-top:1.5px solid var(--color-divider)">
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"></path></svg><div style="font-size:10.5px;font-weight:600">Home</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-accent-700);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg><div style="font-size:10.5px;font-weight:700">Studio</div></div>
+<div style="width:54px;height:54px;border-radius:999px;background:var(--color-accent);display:flex;align-items:center;justify-content:center;margin-top:-30px;box-shadow:var(--shadow-md)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.75" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><div style="font-size:10.5px;font-weight:600">Clients</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="4"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg><div style="font-size:10.5px;font-weight:600">Schedule</div></div>
+</div>
+</div>
+</x-import></div>
+<div class="dv-opt" id="1e"><div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>Clients — searchable list</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:72px 20px 0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-family:var(--font-heading);font-size:28px">Clients</div>
+<div style="width:40px;height:40px;border-radius:999px;background:var(--color-accent);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.75" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></div>
+</div>
+<div style="display:flex;align-items:center;gap:10px;background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:999px;padding:12px 18px">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<div style="font-size:14.5px;color:var(--color-neutral-500)">Search by name or order…</div>
+</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)">
+<div style="display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--color-divider)"><div style="width:44px;height:44px;border-radius:999px;background:var(--color-accent-200);color:var(--color-accent-800);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">AO</div><div style="flex:1"><div style="font-weight:700;font-size:15px">Adaeze Okafor</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Fitting today 10:00 · order #041</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></div>
+<div style="display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--color-divider)"><div style="width:44px;height:44px;border-radius:999px;background:var(--color-accent-2-200);color:var(--color-accent-2-800);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">CN</div><div style="flex:1"><div style="font-weight:700;font-size:15px">Chidi Nwosu</div><div style="font-size:12.5px;color:var(--color-neutral-600)">First fitting today 14:30 · order #043</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></div>
+<div style="display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--color-divider)"><div style="width:44px;height:44px;border-radius:999px;background:var(--color-accent-2-200);color:var(--color-accent-2-800);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">BA</div><div style="flex:1"><div style="font-weight:700;font-size:15px">Bisi Adeyemi</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Order #039 ready Thu · wrap dress</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></div>
+<div style="display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--color-divider)"><div style="width:44px;height:44px;border-radius:999px;background:var(--color-accent-200);color:var(--color-accent-800);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">NE</div><div style="flex:1"><div style="font-weight:700;font-size:15px">Ngozi Eze</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Last order delivered 2 Aug · gown</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></div>
+<div style="display:flex;align-items:center;gap:14px;padding:13px 18px"><div style="width:44px;height:44px;border-radius:999px;background:var(--color-neutral-200);color:var(--color-neutral-700);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">TB</div><div style="flex:1"><div style="font-weight:700;font-size:15px">Tunde Bakare</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Measurements on file · no open orders</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></div>
+</div>
+<div style="text-align:center;font-size:12.5px;color:var(--color-neutral-600)">18 clients · sorted by activity</div>
+</div>
+<div style="display:flex;align-items:flex-end;justify-content:space-around;padding:10px 14px 30px;background:var(--color-neutral-100);border-top:1.5px solid var(--color-divider)">
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"></path></svg><div style="font-size:10.5px;font-weight:600">Home</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg><div style="font-size:10.5px;font-weight:600">Studio</div></div>
+<div style="width:54px;height:54px;border-radius:999px;background:var(--color-accent);display:flex;align-items:center;justify-content:center;margin-top:-30px;box-shadow:var(--shadow-md)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.75" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-accent-700);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><div style="font-size:10.5px;font-weight:700">Clients</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="4"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg><div style="font-size:10.5px;font-weight:600">Schedule</div></div>
+</div>
+</div>
+</x-import></div>
+<div class="dv-opt" id="1f"><div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>Client profile — measurements, orders, notes</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:66px 20px 0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:36px;height:36px;border-radius:999px;border:1.5px solid var(--color-divider);background:var(--color-neutral-100);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-700)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg></div>
+<div style="font-size:13px;font-weight:700;color:var(--color-neutral-600)">Client</div>
+</div>
+<div style="display:flex;align-items:center;gap:16px">
+<div style="width:64px;height:64px;border-radius:999px;background:var(--color-accent-200);color:var(--color-accent-800);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px">AO</div>
+<div style="flex:1"><div style="font-family:var(--font-heading);font-size:24px">Adaeze Okafor</div><div style="font-size:13px;color:var(--color-neutral-600)">Client since March 2024 · 6 orders</div></div>
+</div>
+<div style="display:flex;gap:10px">
+<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:2px solid var(--color-accent);color:var(--color-accent-700);border-radius:999px;padding:10px 0;font-weight:700;font-size:13.5px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.81.37 1.6.72 2.34a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.74-1.29a2 2 0 0 1 2.11-.45c.74.35 1.53.6 2.34.72A2 2 0 0 1 22 16.92z"></path></svg>Call</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--color-accent);color:#fff;border-radius:999px;padding:12px 0;font-weight:700;font-size:13.5px;box-shadow:var(--shadow-sm)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>Message</div>
+</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-lg);padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Measurements</div><div style="font-size:12px;color:var(--color-neutral-600)">Updated 12 Aug</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px">
+<div style="text-align:center"><div style="font-family:var(--font-heading);font-size:20px">92</div><div style="font-size:11.5px;color:var(--color-neutral-600)">Bust</div></div>
+<div style="text-align:center"><div style="font-family:var(--font-heading);font-size:20px">74</div><div style="font-size:11.5px;color:var(--color-neutral-600)">Waist</div></div>
+<div style="text-align:center"><div style="font-family:var(--font-heading);font-size:20px">98</div><div style="font-size:11.5px;color:var(--color-neutral-600)">Hips</div></div>
+<div style="text-align:center"><div style="font-family:var(--font-heading);font-size:20px">132</div><div style="font-size:11.5px;color:var(--color-neutral-600)">Length</div></div>
+</div>
+<div style="font-size:12px;color:var(--color-neutral-600);text-align:center">cm · full sheet has 14 measurements</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Orders</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-lg)">
+<div style="display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--color-divider)"><div style="flex:1"><div style="font-weight:700;font-size:14.5px">#041 — wrap dress</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Second fitting today</div></div><span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--color-accent-2-200);color:var(--color-accent-2-800)">In fitting</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:13px 18px"><div style="flex:1"><div style="font-weight:700;font-size:14.5px">#032 — evening gown</div><div style="font-size:12.5px;color:var(--color-neutral-600)">Delivered 30 Jun</div></div><span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--color-neutral-200);color:var(--color-neutral-700)">Delivered</span></div>
+</div>
+</div>
+<div style="background:var(--color-accent-2-100);border:1.5px solid var(--color-accent-2-200);border-radius:var(--radius-lg);padding:14px 18px;display:flex;flex-direction:column;gap:6px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-accent-2-800)">Notes</div>
+<div style="font-size:13.5px;color:var(--color-accent-2-900);line-height:1.5">Prefers ankara prints, shorter sleeves. Take in shoulders slightly — noted at first fitting.</div>
+</div>
+</div>
+<div style="height:34px"></div>
+</div>
+</x-import></div>
+<div class="dv-opt" id="1g"><div class="dv-olabel"><a class="dv-oid" href="#1g">1g</a>Schedule — week strip + day agenda</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:72px 20px 0;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-family:var(--font-heading);font-size:28px">Schedule</div>
+<div style="font-size:13px;font-weight:700;color:var(--color-accent-700)">August 2026</div>
+</div>
+<div style="display:flex;justify-content:space-between">
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;width:44px"><div style="font-size:11px;font-weight:700;color:var(--color-neutral-600)">MON</div><div style="width:40px;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--color-neutral-600)">24</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;width:44px"><div style="font-size:11px;font-weight:700;color:var(--color-accent-700)">TUE</div><div style="width:40px;height:40px;border-radius:999px;background:var(--color-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;box-shadow:var(--shadow-sm)">25</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;width:44px"><div style="font-size:11px;font-weight:700;color:var(--color-neutral-600)">WED</div><div style="width:40px;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">26</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;width:44px"><div style="font-size:11px;font-weight:700;color:var(--color-neutral-600)">THU</div><div style="width:40px;height:40px;border-radius:999px;border:2px solid var(--color-accent-2-500);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--color-accent-2-800)">27</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;width:44px"><div style="font-size:11px;font-weight:700;color:var(--color-neutral-600)">FRI</div><div style="width:40px;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">28</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;width:44px"><div style="font-size:11px;font-weight:700;color:var(--color-neutral-600)">SAT</div><div style="width:40px;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">29</div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Tuesday 25 — today</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--color-divider)"><div style="font-weight:800;font-size:15px;width:44px">10:00</div><div style="flex:1"><div style="font-weight:700;font-size:15px">Fitting — Adaeze O.</div><div style="font-size:12.5px;color:var(--color-neutral-600)">45 min · order #041</div></div><div style="width:10px;height:10px;border-radius:999px;background:var(--color-accent)"></div></div>
+<div style="display:flex;align-items:center;gap:14px;padding:14px 18px"><div style="font-weight:800;font-size:15px;width:44px">14:30</div><div style="flex:1"><div style="font-weight:700;font-size:15px">Fitting — Chidi N.</div><div style="font-size:12.5px;color:var(--color-neutral-600)">60 min · order #043 · first fitting</div></div><div style="width:10px;height:10px;border-radius:999px;background:var(--color-accent)"></div></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Thursday 27</div>
+<div style="background:var(--color-accent-2-100);border:1.5px solid var(--color-accent-2-200);border-radius:var(--radius-lg)">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 18px"><div style="width:44px"><span style="font-size:10.5px;font-weight:800;letter-spacing:.8px;padding:4px 8px;border-radius:999px;background:var(--color-accent-2-700);color:#fff">DUE</span></div><div style="flex:1"><div style="font-weight:700;font-size:15px;color:var(--color-accent-2-900)">Order #039 — pickup, Bisi A.</div><div style="font-size:12.5px;color:var(--color-accent-2-800)">Wrap dress · final press Wednesday</div></div></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Friday 28</div>
+<div style="border:1.5px dashed var(--color-neutral-400);border-radius:var(--radius-lg);padding:16px 18px;display:flex;align-items:center;justify-content:space-between"><div style="font-size:13.5px;color:var(--color-neutral-600)">No appointments — good sewing day</div><div style="font-size:13px;font-weight:700;color:var(--color-accent-700)">+ Add</div></div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-end;justify-content:space-around;padding:10px 14px 30px;background:var(--color-neutral-100);border-top:1.5px solid var(--color-divider)">
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"></path></svg><div style="font-size:10.5px;font-weight:600">Home</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg><div style="font-size:10.5px;font-weight:600">Studio</div></div>
+<div style="width:54px;height:54px;border-radius:999px;background:var(--color-accent);display:flex;align-items:center;justify-content:center;margin-top:-30px;box-shadow:var(--shadow-md)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.75" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><div style="font-size:10.5px;font-weight:600">Clients</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-accent-700);width:56px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="4"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg><div style="font-size:10.5px;font-weight:700">Schedule</div></div>
+</div>
+</div>
+</x-import></div>
+<div class="dv-opt" id="1h"><div class="dv-olabel"><a class="dv-oid" href="#1h">1h</a>Order detail — timeline, fabric, payments, notes</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:66px 20px 0;display:flex;flex-direction:column;gap:15px">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:36px;height:36px;border-radius:999px;border:1.5px solid var(--color-divider);background:var(--color-neutral-100);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-700)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg></div>
+<div style="font-size:13px;font-weight:700;color:var(--color-neutral-600)">Order #041</div>
+</div>
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+<div><div style="font-family:var(--font-heading);font-size:24px;line-height:1.15">Wrap dress<br>— Look 07</div><div style="font-size:13px;color:var(--color-neutral-600);margin-top:5px">Adaeze Okafor · due Thu, 4 Sep</div></div>
+<span style="font-size:11.5px;font-weight:700;padding:6px 13px;border-radius:999px;background:var(--color-accent-2-200);color:var(--color-accent-2-800);white-space:nowrap">In fitting</span>
+</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-lg);padding:16px 18px">
+<div style="display:flex;justify-content:space-between">
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:1"><div style="width:26px;height:26px;border-radius:999px;background:var(--color-accent-2-500);display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></div><div style="font-size:11px;font-weight:700">Cut</div><div style="font-size:10.5px;color:var(--color-neutral-600)">8 Aug</div></div>
+<div style="flex:1;height:2.5px;background:var(--color-accent-2-400);margin-top:12px"></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:1"><div style="width:26px;height:26px;border-radius:999px;background:var(--color-accent-2-500);display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></div><div style="font-size:11px;font-weight:700">Sewing</div><div style="font-size:10.5px;color:var(--color-neutral-600)">15 Aug</div></div>
+<div style="flex:1;height:2.5px;background:var(--color-accent-2-400);margin-top:12px"></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:1"><div style="width:26px;height:26px;border-radius:999px;background:var(--color-accent);box-shadow:0 0 0 4px var(--color-accent-200)"></div><div style="font-size:11px;font-weight:800;color:var(--color-accent-700)">Fitting</div><div style="font-size:10.5px;color:var(--color-accent-700)">today</div></div>
+<div style="flex:1;height:2.5px;background:var(--color-neutral-300);margin-top:12px"></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:1"><div style="width:26px;height:26px;border-radius:999px;border:2.5px solid var(--color-neutral-400);background:var(--color-bg)"></div><div style="font-size:11px;font-weight:700;color:var(--color-neutral-600)">Ready</div><div style="font-size:10.5px;color:var(--color-neutral-600)">4 Sep</div></div>
+</div>
+</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-lg);padding:14px 18px;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Fabric &amp; materials</div>
+<div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;border-radius:999px;background:var(--color-accent-400)"></div><div style="flex:1"><div style="font-weight:700;font-size:14px">Ankara — “Sunset”</div><div style="font-size:12px;color:var(--color-neutral-600)">2.5 yd · from client</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;border-radius:999px;background:var(--color-neutral-300)"></div><div style="flex:1"><div style="font-weight:700;font-size:14px">Cotton lining</div><div style="font-size:12px;color:var(--color-neutral-600)">1 yd · studio stock</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;border-radius:999px;background:var(--color-accent-2-400)"></div><div style="flex:1"><div style="font-weight:700;font-size:14px">Covered buttons × 6</div><div style="font-size:12px;color:var(--color-neutral-600)">to order — reminder set</div></div></div>
+</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-lg);padding:14px 18px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-neutral-600)">Payment</div><div style="font-size:12.5px;font-weight:700;color:var(--color-accent-700)">Record payment</div></div>
+<div style="display:flex;align-items:baseline;gap:8px"><div style="font-family:var(--font-heading);font-size:22px">₦50,000</div><div style="font-size:13px;color:var(--color-neutral-600)">of ₦85,000 paid</div></div>
+<div style="height:10px;border-radius:999px;background:var(--color-neutral-200);overflow:hidden"><div style="width:59%;height:100%;border-radius:999px;background:var(--color-accent)"></div></div>
+<div style="font-size:12.5px;color:var(--color-neutral-600)">Balance ₦35,000 · due at pickup</div>
+</div>
+<div style="background:var(--color-accent-2-100);border:1.5px solid var(--color-accent-2-200);border-radius:var(--radius-lg);padding:14px 18px;display:flex;flex-direction:column;gap:6px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--color-accent-2-800)">Notes</div>
+<div style="font-size:13.5px;color:var(--color-accent-2-900);line-height:1.5">Take in shoulders 1 cm after first fitting. She asked for a deeper wrap overlap.</div>
+</div>
+</div>
+<div style="height:34px"></div>
+</div>
+</x-import></div>
+<div class="dv-opt" id="1i"><div class="dv-olabel"><a class="dv-oid" href="#1i">1i</a>New sketch — capture-first flow</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:66px 20px 0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="width:36px;height:36px;border-radius:999px;border:1.5px solid var(--color-divider);background:var(--color-neutral-100);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-700)" stroke-width="2.75" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></div>
+<div style="font-family:var(--font-heading);font-size:19px">New sketch</div>
+<div style="font-size:14px;font-weight:700;color:var(--color-neutral-400)">Save</div>
+</div>
+<div style="border:2px dashed var(--color-accent-400);background:var(--color-accent-100);border-radius:var(--radius-lg);padding:44px 24px;display:flex;flex-direction:column;align-items:center;gap:12px">
+<div style="width:64px;height:64px;border-radius:999px;background:var(--color-accent);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"></path><circle cx="12" cy="13" r="3"></circle></svg></div>
+<div style="font-weight:700;font-size:16px;color:var(--color-accent-800)">Photograph your sketch</div>
+<div style="font-size:13px;color:var(--color-accent-700)">or choose from your library</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:12.5px;font-weight:700;color:var(--color-neutral-700)">Title</div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:999px;padding:13px 18px;font-size:14.5px;color:var(--color-neutral-500)">Look 10 — give it a name…</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:12.5px;font-weight:700;color:var(--color-neutral-700)">Garment type</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<div style="padding:8px 16px;border-radius:999px;background:var(--color-accent);color:#fff;font-weight:700;font-size:13px">Wrap</div>
+<div style="padding:8px 16px;border-radius:999px;border:1.5px solid var(--color-divider);color:var(--color-neutral-700);font-weight:600;font-size:13px">Gown</div>
+<div style="padding:8px 16px;border-radius:999px;border:1.5px solid var(--color-divider);color:var(--color-neutral-700);font-weight:600;font-size:13px">Two-piece</div>
+<div style="padding:8px 16px;border-radius:999px;border:1.5px solid var(--color-divider);color:var(--color-neutral-700);font-weight:600;font-size:13px">Suit</div>
+<div style="padding:8px 14px;border-radius:999px;border:1.5px dashed var(--color-neutral-400);color:var(--color-neutral-600);font-weight:600;font-size:13px">+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:12.5px;font-weight:700;color:var(--color-neutral-700)">Notes <span style="font-weight:500;color:var(--color-neutral-500)">(optional)</span></div>
+<div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:var(--radius-md);padding:13px 18px;font-size:14.5px;color:var(--color-neutral-500);min-height:56px">Fabric ideas, details to remember…</div>
+</div>
+<div style="background:var(--color-accent);color:#fff;border-radius:999px;padding:15px 0;text-align:center;font-weight:700;font-size:15px;box-shadow:var(--shadow-sm)">Save sketch</div>
+</div>
+<div style="height:34px"></div>
+</div>
+</x-import></div>
+<div class="dv-opt" id="1j"><div class="dv-olabel"><a class="dv-oid" href="#1j">1j</a>New order — client, garment, sketch link, deposit</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+<div style="flex:1;overflow:hidden;padding:66px 20px 0;display:flex;flex-direction:column;gap:15px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="width:36px;height:36px;border-radius:999px;border:1.5px solid var(--color-divider);background:var(--color-neutral-100);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-700)" stroke-width="2.75" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></div>
+<div style="font-family:var(--font-heading);font-size:19px">New order</div>
+<div style="width:36px"></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:12.5px;font-weight:700;color:var(--color-neutral-700)">Client</div>
+<div style="display:flex;align-items:center;gap:12px;background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:999px;padding:9px 14px">
+<div style="width:34px;height:34px;border-radius:999px;background:var(--color-accent-200);color:var(--color-accent-800);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px">AO</div>
+<div style="flex:1;font-weight:700;font-size:14.5px">Adaeze Okafor</div>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:12.5px;font-weight:700;color:var(--color-neutral-700)">Garment</div>
+<div style="display:flex;background:var(--color-neutral-200);border-radius:999px;padding:4px">
+<div style="flex:1;text-align:center;padding:9px 0;border-radius:999px;background:var(--color-neutral-100);box-shadow:var(--shadow-sm);font-weight:700;font-size:13.5px">Dress</div>
+<div style="flex:1;text-align:center;padding:9px 0;font-weight:600;font-size:13.5px;color:var(--color-neutral-600)">Top</div>
+<div style="flex:1;text-align:center;padding:9px 0;font-weight:600;font-size:13.5px;color:var(--color-neutral-600)">Skirt</div>
+<div style="flex:1;text-align:center;padding:9px 0;font-weight:600;font-size:13.5px;color:var(--color-neutral-600)">Suit</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:12.5px;font-weight:700;color:var(--color-neutral-700)">From sketch</div>
+<div style="display:flex;align-items:center;gap:12px;background:var(--color-accent-2-100);border:1.5px solid var(--color-accent-2-200);border-radius:var(--radius-md);padding:10px 14px">
+<div style="width:42px;height:54px;border-radius:10px;background:var(--color-surface);border:1.5px solid var(--color-divider);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M20 4 8.12 15.88"></path><path d="M14.47 14.48 20 20"></path><path d="M8.12 8.12 12 12"></path></svg></div>
+<div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--color-accent-2-900)">Look 07 — wrap</div><div style="font-size:12px;color:var(--color-accent-2-800)">Tap to change or skip</div></div>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-2-700)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+</div>
+</div>
+<div style="display:flex;gap:10px">
+<div style="flex:1;display:flex;flex-direction:column;gap:7px"><div style="font-size:12.5px;font-weight:700;color:var(--color-neutral-700)">Due date</div><div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:999px;padding:13px 16px;font-size:14px;font-weight:700">Thu, 4 Sep</div></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:7px"><div style="font-size:12.5px;font-weight:700;color:var(--color-neutral-700)">Price</div><div style="background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:999px;padding:13px 16px;font-size:14px;font-weight:700">₦85,000</div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font-size:12.5px;font-weight:700;color:var(--color-neutral-700)">Deposit received</div>
+<div style="display:flex;align-items:center;justify-content:space-between;background:var(--color-neutral-100);border:1.5px solid var(--color-divider);border-radius:999px;padding:13px 18px">
+<div style="font-size:14px;font-weight:700">₦50,000</div>
+<div style="font-size:12px;color:var(--color-neutral-600)">59% of total</div>
+</div>
+</div>
+<div style="background:var(--color-accent);color:#fff;border-radius:999px;padding:15px 0;text-align:center;font-weight:700;font-size:15px;box-shadow:var(--shadow-sm);margin-top:4px">Create order #044</div>
+<div style="text-align:center;font-size:12.5px;color:var(--color-neutral-600)">First fitting will be suggested for next week</div>
+</div>
+<div style="height:34px"></div>
+</div>
+</x-import></div>
+</div>
+<p class="dv-next">Try next: “more like <a class="dv-oid" href="#1c">1c</a> but keep the tab bar stats from <a class="dv-oid" href="#1a">1a</a>” · “redo the app screens in the <a class="dv-oid" href="#1b">1b</a> style” · “add a dark-evening variant”</p>
+</section>
+
+</x-dc>
+</body>
+</html>
