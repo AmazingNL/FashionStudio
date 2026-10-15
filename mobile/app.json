@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "mobile",
+    "slug": "mobile",
+    "scheme": "mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-secure-store",
+      "expo-splash-screen",
+      "expo-router",
+      "expo-status-bar"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7ed618db-b068-4857-a5c1-03f4146fd032"
+      }
+    }
+  }
+}
