@@ -1,5 +1,5 @@
 // Font families are registered under these exact names in App.tsx via
-// useFonts() — must match or text silently falls back to the system font.
+
 export const fontFamily = {
   heading: 'Caprasimo_400Regular',
   bodyRegular: 'Figtree_400Regular',
@@ -10,7 +10,7 @@ export const fontFamily = {
 // Named sizes pulled from the README's documented values, not invented —
 // screens should reach for these rather than picking arbitrary numbers.
 export const fontSize = {
-  screenTitle: 28,
+  screenTitle: 30,
   sectionHeadingLg: 26,
   sectionHeadingSm: 18,
   statNumber: 24,

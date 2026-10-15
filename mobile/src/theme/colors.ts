@@ -3,7 +3,7 @@
 // for color — don't hardcode hex values in screens/components.
 
 export const colors = {
-  bg: '#f5ead8',
+  bg: '#fbf4e8',
   surface: '#ebddc5',
   text: '#201e1d',
   accent: '#c67139',
